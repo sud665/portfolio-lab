@@ -1,0 +1,50 @@
+export interface Profile {
+  name: string;
+  title: string;
+  email: string;
+  phone: string;
+  github: string;
+  blog: string;
+  linkedin: string;
+  kakao: string;
+  resume_pdf: string;
+  tagline: string;
+  bio: string;
+}
+
+export interface Project {
+  id: string;
+  tier: "main" | "sub";
+  title: string;
+  icon: string;
+  order: number;
+  techStack: string[];
+  description: string;
+  highlights: string[];
+  architecture: string;
+  decisions: { question: string; answer: string }[];
+  challenges: { problem: string; solution: string }[];
+  impact: string;
+  stats: { label: string; value: string }[];
+}
+
+export interface Career {
+  phase: "chem" | "code" | "ai";
+  title: string;
+  period: string;
+  icon: string;
+  order: number;
+  description: string;
+}
+
+export interface HireService {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface HireProcess {
+  step: number;
+  title: string;
+  description: string;
+}

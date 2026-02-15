@@ -1,0 +1,8 @@
+# Portfolio Project Progress Log
+
+## Project Context
+- Next.js 16+ App Router 포트폴리오
+- 4개 라우트: / (허브), /dev (개발자), /hr (인사팀), /hire (알바)
+- content/ 폴더의 MD 파일에서 데이터 로드
+- Tailwind CSS + Framer Motion
+- 코딩 컨벤션은 루트 CLAUDE.md 참조
