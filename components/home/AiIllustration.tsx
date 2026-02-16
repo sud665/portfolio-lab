@@ -29,18 +29,18 @@ export function AiIllustration() {
           </feMerge>
         </filter>
         <radialGradient id="ai-core" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#8a7dd8" stopOpacity="0.4" />
-          <stop offset="70%" stopColor="#8a7dd8" stopOpacity="0.1" />
-          <stop offset="100%" stopColor="#8a7dd8" stopOpacity="0" />
+          <stop offset="0%" stopColor="#8f2d56" stopOpacity="0.4" />
+          <stop offset="70%" stopColor="#8f2d56" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#8f2d56" stopOpacity="0" />
         </radialGradient>
       </defs>
 
       <circle cx="120" cy="110" r="80" fill="none"
-        stroke="#8a7dd8" strokeWidth="0.3" opacity="0.06">
+        stroke="#8f2d56" strokeWidth="0.3" opacity="0.06">
         <animate attributeName="r" values="75;85;75" dur="4s" repeatCount="indefinite" />
       </circle>
       <circle cx="120" cy="110" r="55" fill="none"
-        stroke="#8a7dd8" strokeWidth="0.4" opacity="0.08">
+        stroke="#8f2d56" strokeWidth="0.4" opacity="0.08">
         <animate attributeName="r" values="50;60;50" dur="3s" repeatCount="indefinite" />
       </circle>
 
@@ -49,7 +49,7 @@ export function AiIllustration() {
         const [x2, y2] = nodes[l2][n2];
         return (
           <line key={`c-${i}`} x1={x1} y1={y1} x2={x2} y2={y2}
-            stroke="#8a7dd8" strokeWidth="0.5" opacity="0.12">
+            stroke="#8f2d56" strokeWidth="0.5" opacity="0.12">
             <animate attributeName="opacity" values="0.06;0.2;0.06"
               dur={`${2 + i * 0.12}s`} repeatCount="indefinite" />
           </line>
@@ -65,7 +65,7 @@ export function AiIllustration() {
             <g key={`n-${li}-${ni}`}>
               <circle cx={cx} cy={cy} r={glowR} fill="url(#ai-core)" />
               <circle cx={cx} cy={cy} r={r}
-                fill={li >= 3 ? "#a89ee4" : "#8a7dd8"}
+                fill={li >= 3 ? "#a84e72" : "#8f2d56"}
                 opacity={isCentral ? 0.85 : 0.65}
                 filter={isCentral ? "url(#ai-glow)" : undefined}>
                 <animate attributeName="r" values={`${r - 0.5};${r + 1};${r - 0.5}`}
@@ -76,20 +76,20 @@ export function AiIllustration() {
         }),
       )}
 
-      <circle r="1.5" fill="#8a7dd8" opacity="0.8" filter="url(#ai-glow)">
+      <circle r="1.5" fill="#8f2d56" opacity="0.8" filter="url(#ai-glow)">
         <animateMotion dur="3s" repeatCount="indefinite"
           path="M 40,60 L 90,105 L 120,80 L 150,50 L 200,60" />
       </circle>
-      <circle r="1.5" fill="#a89ee4" opacity="0.6">
+      <circle r="1.5" fill="#a84e72" opacity="0.6">
         <animateMotion dur="3.5s" repeatCount="indefinite"
           path="M 40,160 L 90,130 L 120,125 L 150,130 L 200,160" />
       </circle>
-      <circle r="1" fill="#8a7dd8" opacity="0.4">
+      <circle r="1" fill="#8f2d56" opacity="0.4">
         <animateMotion dur="4s" repeatCount="indefinite"
           path="M 40,60 L 80,50 L 120,35 L 150,50 L 200,60" />
       </circle>
 
-      <text x="120" y="215" fill="#8a7dd8" fontSize="7" opacity="0.15"
+      <text x="120" y="215" fill="#8f2d56" fontSize="7" opacity="0.15"
         textAnchor="middle" fontFamily="monospace">
         neural network
       </text>

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send } from "lucide-react";
+import { MessageCircle, X, Send, RotateCcw } from "lucide-react";
 
 import { useChatMessages } from "@/hooks/useChatMessages";
 
@@ -69,6 +69,14 @@ export function ChatWidget() {
       if (awayTimerRef.current) clearTimeout(awayTimerRef.current);
     };
   }, []);
+
+  const handleNewChat = () => {
+    localStorage.removeItem(SESSION_KEY);
+    setSessionId(null);
+    setShowAway(false);
+    setInput("");
+    if (awayTimerRef.current) clearTimeout(awayTimerRef.current);
+  };
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -160,13 +168,23 @@ export function ChatWidget() {
                   실시간 상담
                 </span>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="rounded-lg p-1.5 text-white/40 transition-colors hover:bg-white/5 hover:text-white/70"
-                aria-label="닫기"
-              >
-                <X size={16} />
-              </button>
+              <div className="flex gap-1">
+                <button
+                  onClick={handleNewChat}
+                  className="rounded-lg p-1.5 text-white/40 transition-colors hover:bg-white/5 hover:text-white/70"
+                  aria-label="새 대화"
+                  title="새 대화"
+                >
+                  <RotateCcw size={14} />
+                </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-lg p-1.5 text-white/40 transition-colors hover:bg-white/5 hover:text-white/70"
+                  aria-label="닫기"
+                >
+                  <X size={16} />
+                </button>
+              </div>
             </div>
 
             {/* 메시지 영역 */}

@@ -13,6 +13,12 @@ export interface Profile {
   bio: string;
 }
 
+export interface ArchitectureLayer {
+  name: string;
+  color: "chem" | "code" | "ai";
+  items: string[];
+}
+
 export interface Project {
   id: string;
   tier: "main" | "sub";
@@ -23,6 +29,7 @@ export interface Project {
   description: string;
   highlights: string[];
   architecture: string;
+  architectureLayers: ArchitectureLayer[];
   decisions: { question: string; answer: string }[];
   challenges: { problem: string; solution: string }[];
   impact: string;

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 
 import { type Project } from "@/lib/types";
+import { ArchitectureDiagram } from "@/components/dev/ArchitectureDiagram";
 
 interface ProjectDetailProps {
   project: Project;
@@ -102,9 +103,15 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
       {hasArchitecture && (
         <motion.div {...fadeUp(0.3)} className="mt-10">
           <SectionLabel color="text-code/60">Architecture</SectionLabel>
-          <pre className="mt-3 overflow-x-auto rounded-xl border border-card-border bg-card p-5 font-mono text-sm leading-relaxed text-code-light/80">
-            {project.architecture}
-          </pre>
+          <div className="mt-3">
+            {project.architectureLayers.length > 0 ? (
+              <ArchitectureDiagram layers={project.architectureLayers} />
+            ) : (
+              <pre className="overflow-x-auto rounded-xl border border-card-border bg-card p-5 font-mono text-sm leading-relaxed text-code-light/80">
+                {project.architecture}
+              </pre>
+            )}
+          </div>
         </motion.div>
       )}
 

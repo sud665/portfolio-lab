@@ -5,6 +5,7 @@ import matter from "gray-matter";
 import type {
   Profile,
   Project,
+  ArchitectureLayer,
   Career,
   HireService,
   HireProcess,
@@ -30,6 +31,26 @@ function splitSections(body: string): Record<string, string> {
   }
 
   return sections;
+}
+
+function parseArchitecture(raw: string): ArchitectureLayer[] {
+  const layers: ArchitectureLayer[] = [];
+  let current: ArchitectureLayer | null = null;
+
+  for (const line of raw.split("\n")) {
+    const trimmed = line.trim();
+    const layerMatch = trimmed.match(/^@layer\s+(.+?)\s*\|\s*(chem|code|ai)$/);
+    if (layerMatch) {
+      current = { name: layerMatch[1], color: layerMatch[2] as ArchitectureLayer["color"], items: [] };
+      layers.push(current);
+      continue;
+    }
+    if (current && trimmed.startsWith("- ")) {
+      current.items.push(trimmed.slice(2).trim());
+    }
+  }
+
+  return layers;
 }
 
 function parseListItems(text: string): string[] {
@@ -114,6 +135,9 @@ export function getProjects(): Project[] {
             })
           : [];
 
+        const architectureRaw = sections["아키텍처"] ?? "";
+        const architectureLayers = parseArchitecture(architectureRaw);
+
         return {
           id: data.id ?? "",
           tier: data.tier ?? "main",
@@ -123,7 +147,8 @@ export function getProjects(): Project[] {
           techStack: data.techStack ?? [],
           description: sections["설명"] ?? "",
           highlights,
-          architecture: sections["아키텍처"] ?? "",
+          architecture: architectureRaw,
+          architectureLayers,
           decisions,
           challenges,
           impact: sections["임팩트"] ?? "",

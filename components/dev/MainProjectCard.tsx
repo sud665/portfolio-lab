@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { type Project } from "@/lib/types";
+import { ArchitectureDiagram } from "@/components/dev/ArchitectureDiagram";
 
 interface MainProjectCardProps {
   project: Project;
@@ -131,9 +132,18 @@ export function MainProjectCard({ project }: MainProjectCardProps) {
                       <span className="inline-block h-1 w-1 rounded-full bg-code" />
                       Architecture
                     </span>
-                    <pre className="mt-3 overflow-x-auto rounded-lg bg-black/30 p-3 font-mono text-[11px] leading-relaxed text-code-light/70">
-                      {project.architecture}
-                    </pre>
+                    <div className="mt-3">
+                      {project.architectureLayers.length > 0 ? (
+                        <ArchitectureDiagram
+                          layers={project.architectureLayers}
+                          compact
+                        />
+                      ) : (
+                        <pre className="overflow-x-auto rounded-lg bg-black/30 p-3 font-mono text-[11px] leading-relaxed text-code-light/70">
+                          {project.architecture}
+                        </pre>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
