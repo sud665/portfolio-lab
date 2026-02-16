@@ -29,6 +29,7 @@ export default function HrPage() {
         name={profile.name}
         title={profile.title}
         tagline={profile.tagline}
+        position={profile.position}
         email={profile.email}
         resumePdf={profile.resume_pdf}
       />

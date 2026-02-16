@@ -9,6 +9,7 @@ linkedin: ""
 kakao: ""
 resume_pdf: "/files/resume.pdf"
 tagline: "화학에서 코드로, 코드에서 AI로"
+position: "AI Agent 개발자 | 제조 도메인 DX 전문"
 ---
 
 화학공학과를 졸업하고 KCC에서 7년간 현장의 문제를 직접 마주했습니다.

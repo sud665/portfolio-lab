@@ -6,6 +6,7 @@ import { getProfile } from "@/lib/content";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { ScrollToTop } from "@/components/common/ScrollToTop";
+import { ChatWidget } from "@/components/common/ChatWidget";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -63,6 +64,7 @@ export default function RootLayout({
           email={profile.email}
         />
         <ScrollToTop />
+        <ChatWidget />
       </body>
     </html>
   );

@@ -22,7 +22,9 @@ export function ProjectList({ projects }: ProjectListProps) {
 
       <div className="space-y-8">
         {mainProjects.map((p, i) => (
-          <ScrollReveal key={p.id} delay={i * 0.1}>
+          <ScrollReveal
+            key={p.id}
+            delay={i * 0.1}>
             <MainProjectCard project={p} />
           </ScrollReveal>
         ))}
@@ -31,7 +33,9 @@ export function ProjectList({ projects }: ProjectListProps) {
       {subProjects.length > 0 && (
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
           {subProjects.map((p, i) => (
-            <ScrollReveal key={p.id} delay={i * 0.1}>
+            <ScrollReveal
+              key={p.id}
+              delay={i * 0.1}>
               <SubProjectCard project={p} />
             </ScrollReveal>
           ))}

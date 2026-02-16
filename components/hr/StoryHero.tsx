@@ -7,6 +7,7 @@ interface StoryHeroProps {
   name: string;
   title: string;
   tagline: string;
+  position: string;
   email: string;
   resumePdf: string;
 }
@@ -27,6 +28,7 @@ export function StoryHero({
   name,
   title,
   tagline,
+  position,
   email,
   resumePdf,
 }: StoryHeroProps) {
@@ -43,8 +45,8 @@ export function StoryHero({
         className="pointer-events-none absolute inset-0 opacity-[0.015]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(245,158,11,0.4) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(245,158,11,0.4) 1px, transparent 1px)
+            linear-gradient(rgba(212,112,112,0.4) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(212,112,112,0.4) 1px, transparent 1px)
           `,
           backgroundSize: "80px 80px",
         }}
@@ -67,9 +69,14 @@ export function StoryHero({
           {name}
         </motion.h1>
 
-        {/* Title & Tagline */}
+        {/* Title & Position & Tagline */}
         <motion.div {...fadeUp(0.2)} className="mt-4 text-center">
           <p className="text-lg font-medium text-amber">{title}</p>
+          {position && (
+            <p className="mt-3 inline-block rounded-full border border-amber/20 bg-amber/5 px-4 py-1.5 text-sm font-medium text-amber">
+              {position}
+            </p>
+          )}
           <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-gray-500">
             {tagline}
           </p>
@@ -113,7 +120,7 @@ export function StoryHero({
         >
           <a
             href={resumePdf}
-            className="flex items-center gap-2 rounded-full bg-amber px-7 py-3 text-sm font-semibold text-dark transition-shadow duration-300 hover:shadow-[0_0_24px_rgba(245,158,11,0.3)]"
+            className="flex items-center gap-2 rounded-full bg-amber px-7 py-3 text-sm font-semibold text-dark transition-shadow duration-300 hover:shadow-[0_0_24px_rgba(212,112,112,0.3)]"
           >
             <Download size={15} aria-hidden="true" />
             이력서 다운로드

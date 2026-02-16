@@ -9,6 +9,7 @@ export interface Profile {
   kakao: string;
   resume_pdf: string;
   tagline: string;
+  position: string;
   bio: string;
 }
 
@@ -71,4 +72,23 @@ export interface Phase {
   title: string;
   desc: string;
   hex: string;
+}
+
+// ── Chat ──
+
+export interface ChatSession {
+  id: string;
+  visitor_name: string | null;
+  page: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  session_id: string;
+  sender: "visitor" | "owner";
+  content: string;
+  created_at: string;
 }

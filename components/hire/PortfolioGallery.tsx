@@ -8,10 +8,10 @@ import { type PortfolioItem } from "@/lib/types";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 
 const cardGradients: Record<string, string> = {
-  chem: "from-chem via-emerald-700 to-emerald-950",
-  code: "from-code via-indigo-700 to-indigo-950",
-  ai: "from-ai via-rose-700 to-rose-950",
-  amber: "from-amber via-orange-700 to-orange-950",
+  chem: "from-chem via-[#801a10] to-[#2a0808]",
+  code: "from-code via-[#2b3a6a] to-[#0e1228]",
+  ai: "from-ai via-[#3a2880] to-[#140e30]",
+  amber: "from-amber via-[#5a2828] to-[#200e0e]",
 };
 
 const badgeColors: Record<string, string> = {

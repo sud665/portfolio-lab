@@ -33,7 +33,10 @@ export const techStacks = [
       { name: "Git", highlight: false },
       { name: "Docker", highlight: false },
       { name: "CI/CD", highlight: false },
+      { name: "Vercel", highlight: false },
       { name: "AWS", highlight: false },
+      { name: "GCP", highlight: false },
+      { name: "OCI", highlight: false },
     ],
   },
   {

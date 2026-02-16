@@ -127,6 +127,26 @@ export function ImpactCards({ projects }: ImpactCardsProps) {
                   </div>
                 )}
 
+                {/* Quantitative stats */}
+                {project.stats.length > 0 && (
+                  <div className="mx-6 ml-7 mt-3 flex flex-wrap gap-4">
+                    {project.stats
+                      .filter((s) => s.value && !s.value.includes("["))
+                      .map((s) => (
+                        <div key={s.label} className="text-center">
+                          <div
+                            className={`font-outfit text-lg font-bold ${accent.impactText}`}
+                          >
+                            {s.value}
+                          </div>
+                          <div className="text-[10px] text-gray-500">
+                            {s.label}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                )}
+
                 {/* Key highlights */}
                 {project.highlights.length > 0 && (
                   <ul className="space-y-1.5 p-6 pl-7 pt-4">

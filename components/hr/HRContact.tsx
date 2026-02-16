@@ -21,7 +21,7 @@ export function HRContact({ resumePdf, email, phone }: HRContactProps) {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
               href={resumePdf}
-              className="flex items-center gap-2 rounded-full bg-amber px-7 py-3 text-sm font-semibold text-dark transition-shadow duration-300 hover:shadow-[0_0_24px_rgba(245,158,11,0.3)]"
+              className="flex items-center gap-2 rounded-full bg-amber px-7 py-3 text-sm font-semibold text-dark transition-shadow duration-300 hover:shadow-[0_0_24px_rgba(212,112,112,0.3)]"
             >
               <Download size={15} aria-hidden="true" />
               이력서 PDF

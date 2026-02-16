@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-chem: #00e5a0;
-  --color-chem-light: #00b894;
-  --color-code: #6c5ce7;
-  --color-code-light: #a29bfe;
-  --color-ai: #ff6b6b;
-  --color-ai-light: #ffa07a;
-  --color-terminal: #0d0d14;
-  --color-dark: #0a0a0f;
-  --color-card: #16161f;
-  --color-card-border: #222235;
-  --color-amber: #f59e0b;
+  --color-chem: #ff331f;
+  --color-chem-light: #ff6655;
+  --color-code: #657ed4;
+  --color-code-light: #8a9de0;
+  --color-ai: #8a7dd8;
+  --color-ai-light: #a89ee4;
+  --color-terminal: #0d0106;
+  --color-dark: #0d0106;
+  --color-card: #1a1018;
+  --color-card-border: #302535;
+  --color-amber: #d47070;
 
   --font-outfit: "Outfit", sans-serif;
   --font-playfair: "Playfair Display", serif;
@@ -19,8 +19,8 @@
 }
 
 :root {
-  --background: #0a0a0f;
-  --foreground: #f0f0f5;
+  --background: #0d0106;
+  --foreground: #fbfbff;
   --muted: #8888a0;
 }
 
@@ -59,23 +59,3 @@ body {
     transparent 70%
   );
 }
-
-/* Marquee animations */
-@keyframes marquee-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes marquee-right {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-

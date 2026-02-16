@@ -84,9 +84,9 @@ export function TerminalHero({ name }: TerminalHeroProps) {
         className="overflow-hidden rounded-xl border border-card-border bg-terminal">
         {/* Title bar */}
         <div className="flex items-center gap-2 border-b border-card-border px-4 py-3">
-          <span className="h-3 w-3 rounded-full bg-red-500/80" />
-          <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
-          <span className="h-3 w-3 rounded-full bg-green-500/80" />
+          <span className="h-3 w-3 rounded-full bg-chem/80" />
+          <span className="h-3 w-3 rounded-full bg-amber/80" />
+          <span className="h-3 w-3 rounded-full bg-ai/80" />
           <span className="ml-3 font-mono text-xs text-gray-500">
             terminal — portfolio
           </span>

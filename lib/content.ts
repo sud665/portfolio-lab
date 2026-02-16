@@ -51,6 +51,7 @@ export function getProfile(): Profile {
     kakao: "",
     resume_pdf: "",
     tagline: "",
+    position: "",
     bio: "",
   };
 
@@ -133,6 +134,11 @@ export function getProjects(): Project[] {
   } catch {
     return [];
   }
+}
+
+export function getProjectById(id: string): Project | null {
+  const projects = getProjects();
+  return projects.find((p) => p.id === id) ?? null;
 }
 
 export function getCareers(): Career[] {

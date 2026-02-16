@@ -12,7 +12,7 @@ const cards = [
     description: "아키텍처, 코드, 기술 의사결정",
     subtitleClass: "text-code",
     borderHover: "hover:border-code",
-    shadow: "hover:shadow-[0_0_30px_rgba(108,92,231,0.3)]",
+    shadow: "hover:shadow-[0_0_30px_rgba(101,126,212,0.3)]",
   },
   {
     href: "/hr",
@@ -22,7 +22,7 @@ const cards = [
     description: "커리어 전환, 임팩트, 핵심 역량",
     subtitleClass: "text-amber",
     borderHover: "hover:border-amber",
-    shadow: "hover:shadow-[0_0_30px_rgba(245,158,11,0.3)]",
+    shadow: "hover:shadow-[0_0_30px_rgba(212,112,112,0.3)]",
   },
   {
     href: "/hire",
@@ -32,7 +32,7 @@ const cards = [
     description: "홈페이지, 쇼핑몰, 랜딩페이지",
     subtitleClass: "text-chem",
     borderHover: "hover:border-chem",
-    shadow: "hover:shadow-[0_0_30px_rgba(0,229,160,0.3)]",
+    shadow: "hover:shadow-[0_0_30px_rgba(255,51,31,0.3)]",
   },
 ];
 
