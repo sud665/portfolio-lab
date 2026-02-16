@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, Phone, Mail } from "lucide-react";
+import { MessageCircle, Phone, Mail, Loader2, Check } from "lucide-react";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 
 interface ContactSectionProps {
@@ -23,10 +23,34 @@ export function ContactSection({
     service: "",
     description: "",
   });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    alert("준비 중입니다");
+    setStatus("loading");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "발송 실패");
+      }
+
+      setStatus("success");
+      setFormData({ name: "", contact: "", service: "", description: "" });
+      setTimeout(() => setStatus("idle"), 3000);
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "발송에 실패했습니다.");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   }
 
   return (
@@ -151,9 +175,19 @@ export function ContactSection({
 
           <button
             type="submit"
-            className="mt-6 w-full rounded-lg bg-chem py-3 font-medium text-white transition-opacity hover:opacity-90">
-            문의 보내기
+            disabled={status === "loading" || status === "success"}
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-chem py-3 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-60">
+            {status === "loading" && <Loader2 size={18} className="animate-spin" />}
+            {status === "success" && <Check size={18} />}
+            {status === "loading"
+              ? "보내는 중..."
+              : status === "success"
+                ? "문의가 접수되었습니다!"
+                : "문의 보내기"}
           </button>
+          {status === "error" && (
+            <p className="mt-2 text-center text-sm text-red-400">{errorMsg}</p>
+          )}
         </form>
       </ScrollReveal>
     </section>
