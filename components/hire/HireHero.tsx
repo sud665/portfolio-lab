@@ -5,13 +5,7 @@ import { ScrollReveal } from "@/components/common/ScrollReveal";
 export function HireHero() {
   return (
     <section className="relative px-6 py-32">
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 50% 40%, rgba(0,229,160,0.05) 0%, transparent 70%)",
-        }}
-      />
+      <div className="absolute inset-0 bg-glow-chem" />
 
       <div className="relative mx-auto max-w-4xl text-center">
         <ScrollReveal>

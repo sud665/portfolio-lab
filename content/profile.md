@@ -1,5 +1,5 @@
 ---
-name: "홍길동"
+name: "서외구"
 title: "풀스택 개발자"
 email: "your@email.com"
 phone: "010-0000-0000"

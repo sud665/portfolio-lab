@@ -4,9 +4,8 @@ import { StoryHero } from "@/components/hr/StoryHero";
 import { CareerTimeline } from "@/components/hr/CareerTimeline";
 import { ImpactCards } from "@/components/hr/ImpactCards";
 import { Strengths } from "@/components/hr/Strengths";
-import { HRDebate } from "@/components/hr/HRDebate";
-import { ScrollReveal } from "@/components/common/ScrollReveal";
-import { Download, Mail, Phone } from "lucide-react";
+import { PeerReviews } from "@/components/hr/PeerReviews";
+import { HRContact } from "@/components/hr/HRContact";
 
 const profile = getProfile();
 
@@ -26,48 +25,22 @@ export default function HrPage() {
 
   return (
     <>
-      <StoryHero resumePdf={profile.resume_pdf} />
+      <StoryHero
+        name={profile.name}
+        title={profile.title}
+        tagline={profile.tagline}
+        email={profile.email}
+        resumePdf={profile.resume_pdf}
+      />
       <CareerTimeline careers={careers} />
       <ImpactCards projects={projects} />
       <Strengths />
-      <HRDebate />
-
-      <section aria-label="연락처" className="mx-auto max-w-4xl px-6 py-20">
-        <ScrollReveal>
-          <div className="text-center">
-            <h2 className="font-playfair text-3xl font-bold text-white">
-              새로운 도전을 함께할 팀을 찾고 있습니다
-            </h2>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a
-                href={profile.resume_pdf}
-                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber to-yellow-500 px-8 py-3 font-medium text-white transition-opacity hover:opacity-90"
-              >
-                <Download size={18} aria-hidden="true" />
-                이력서 PDF
-              </a>
-              {profile.email && (
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="flex items-center gap-2 rounded-full border border-amber/30 px-8 py-3 text-amber transition-colors hover:bg-amber/10"
-                >
-                  <Mail size={18} aria-hidden="true" />
-                  이메일
-                </a>
-              )}
-              {profile.phone && (
-                <a
-                  href={`tel:${profile.phone}`}
-                  className="flex items-center gap-2 rounded-full border border-amber/30 px-8 py-3 text-amber transition-colors hover:bg-amber/10"
-                >
-                  <Phone size={18} aria-hidden="true" />
-                  전화
-                </a>
-              )}
-            </div>
-          </div>
-        </ScrollReveal>
-      </section>
+      <PeerReviews />
+      <HRContact
+        resumePdf={profile.resume_pdf}
+        email={profile.email}
+        phone={profile.phone}
+      />
     </>
   );
 }

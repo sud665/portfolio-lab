@@ -7,6 +7,7 @@
   --color-code-light: #a29bfe;
   --color-ai: #ff6b6b;
   --color-ai-light: #ffa07a;
+  --color-terminal: #0d0d14;
   --color-dark: #0a0a0f;
   --color-card: #16161f;
   --color-card-border: #222235;
@@ -42,3 +43,39 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+.bg-glow-amber {
+  background: radial-gradient(
+    circle at 50% 40%,
+    oklch(from var(--color-amber) l c h / 0.05) 0%,
+    transparent 70%
+  );
+}
+
+.bg-glow-chem {
+  background: radial-gradient(
+    circle at 50% 40%,
+    oklch(from var(--color-chem) l c h / 0.05) 0%,
+    transparent 70%
+  );
+}
+
+/* Marquee animations */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+

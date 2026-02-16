@@ -18,10 +18,14 @@ const lines = [
   { type: "out", text: "> open_to_opportunities ✓" },
 ];
 
+interface TerminalLine {
+  type: string;
+  text: string;
+  displayed: string;
+}
+
 export function TerminalHero({ name }: TerminalHeroProps) {
-  const [visibleLines, setVisibleLines] = useState<
-    { type: string; text: string; displayed: string }[]
-  >([]);
+  const [visibleLines, setVisibleLines] = useState<TerminalLine[]>([]);
   const [currentLine, setCurrentLine] = useState(0);
   const [currentChar, setCurrentChar] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
@@ -29,7 +33,7 @@ export function TerminalHero({ name }: TerminalHeroProps) {
   const resolvedLines = lines.map((l) =>
     l.text === "" && l.type === "out"
       ? { ...l, text: `> fullstack_developer (${name})` }
-      : l
+      : l,
   );
 
   useEffect(() => {
@@ -72,14 +76,12 @@ export function TerminalHero({ name }: TerminalHeroProps) {
   }, [currentLine, currentChar, resolvedLines]);
 
   return (
-    <section className="mx-auto max-w-3xl px-6 py-20">
+    <section className="mx-auto max-w-5xl px-6 py-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="overflow-hidden rounded-xl border border-card-border"
-        style={{ background: "#0d0d14" }}
-      >
+        className="overflow-hidden rounded-xl border border-card-border bg-terminal">
         {/* Title bar */}
         <div className="flex items-center gap-2 border-b border-card-border px-4 py-3">
           <span className="h-3 w-3 rounded-full bg-red-500/80" />
@@ -93,32 +95,26 @@ export function TerminalHero({ name }: TerminalHeroProps) {
         {/* Terminal content */}
         <div className="p-6 font-mono text-sm leading-7 md:text-base">
           {visibleLines.map((line, i) => (
-            <div key={i} className="flex">
+            <div key={i}>
               <span
                 className={
                   line.type === "cmd" ? "text-gray-500" : "text-chem"
-                }
-              >
+                }>
                 {line.displayed}
-                {i === currentLine - 1 || (i === visibleLines.length - 1 && currentLine < resolvedLines.length) ? null : null}
               </span>
             </div>
           ))}
           {currentLine < resolvedLines.length && (
             <span
-              className="inline-block w-2 text-chem"
-              style={{ opacity: showCursor ? 1 : 0 }}
-            >
+              className={`inline-block w-2 text-chem ${showCursor ? "opacity-100" : "opacity-0"}`}>
               |
             </span>
           )}
           {currentLine >= resolvedLines.length && (
-            <div className="flex">
+            <div>
               <span className="text-gray-500">$ </span>
               <span
-                className="inline-block w-2 text-chem"
-                style={{ opacity: showCursor ? 1 : 0 }}
-              >
+                className={`inline-block w-2 text-chem ${showCursor ? "opacity-100" : "opacity-0"}`}>
                 |
               </span>
             </div>

@@ -30,7 +30,9 @@ export function ContactSection({
   }
 
   return (
-    <section id="contact" className="mx-auto max-w-5xl px-6 py-20">
+    <section
+      id="contact"
+      className="mx-auto max-w-5xl px-6 py-20">
       <ScrollReveal>
         <h2 className="mb-12 text-center font-playfair text-3xl font-bold text-white">
           프로젝트를 시작해볼까요?
@@ -42,9 +44,11 @@ export function ContactSection({
         <ScrollReveal delay={0}>
           <a
             href={kakao || "#"}
-            className="flex flex-col items-center gap-2 rounded-xl border border-card-border bg-card p-6 text-center transition-all duration-300 hover:border-chem/40"
-          >
-            <MessageCircle size={28} className="text-chem" />
+            className="flex flex-col items-center gap-2 rounded-xl border border-card-border bg-card p-6 text-center transition-all duration-300 hover:border-chem/40">
+            <MessageCircle
+              size={28}
+              className="text-chem"
+            />
             <span className="font-semibold text-white">카카오톡</span>
             <span className="text-sm text-gray-400">가장 빠른 상담</span>
           </a>
@@ -53,9 +57,11 @@ export function ContactSection({
         <ScrollReveal delay={0.1}>
           <a
             href={`tel:${phone}`}
-            className="flex flex-col items-center gap-2 rounded-xl border border-card-border bg-card p-6 text-center transition-all duration-300 hover:border-chem/40"
-          >
-            <Phone size={28} className="text-chem" />
+            className="flex flex-col items-center gap-2 rounded-xl border border-card-border bg-card p-6 text-center transition-all duration-300 hover:border-chem/40">
+            <Phone
+              size={28}
+              className="text-chem"
+            />
             <span className="font-semibold text-white">전화</span>
             <span className="text-sm text-gray-400">{phone}</span>
           </a>
@@ -64,9 +70,11 @@ export function ContactSection({
         <ScrollReveal delay={0.2}>
           <a
             href={`mailto:${email}`}
-            className="flex flex-col items-center gap-2 rounded-xl border border-card-border bg-card p-6 text-center transition-all duration-300 hover:border-chem/40"
-          >
-            <Mail size={28} className="text-chem" />
+            className="flex flex-col items-center gap-2 rounded-xl border border-card-border bg-card p-6 text-center transition-all duration-300 hover:border-chem/40">
+            <Mail
+              size={28}
+              className="text-chem"
+            />
             <span className="font-semibold text-white">이메일</span>
             <span className="text-sm text-gray-400">{email}</span>
           </a>
@@ -77,8 +85,7 @@ export function ContactSection({
       <ScrollReveal delay={0.3}>
         <form
           onSubmit={handleSubmit}
-          className="mt-12 rounded-2xl border border-card-border bg-card p-8"
-        >
+          className="mt-12 rounded-2xl border border-card-border bg-card p-8">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label className="mb-1 block text-sm text-gray-400">이름</label>
@@ -89,13 +96,11 @@ export function ContactSection({
                   setFormData({ ...formData, name: e.target.value })
                 }
                 className="w-full rounded-lg border border-card-border bg-dark px-4 py-3 text-white outline-none focus:border-chem"
-                placeholder="홍길동"
+                placeholder="서외구"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm text-gray-400">
-                연락처
-              </label>
+              <label className="mb-1 block text-sm text-gray-400">연락처</label>
               <input
                 type="text"
                 value={formData.contact}
@@ -117,11 +122,12 @@ export function ContactSection({
               onChange={(e) =>
                 setFormData({ ...formData, service: e.target.value })
               }
-              className="w-full rounded-lg border border-card-border bg-dark px-4 py-3 text-white outline-none focus:border-chem"
-            >
+              className="w-full rounded-lg border border-card-border bg-dark px-4 py-3 text-white outline-none focus:border-chem">
               <option value="">선택해주세요</option>
               {services.map((s) => (
-                <option key={s.title} value={s.title}>
+                <option
+                  key={s.title}
+                  value={s.title}>
                   {s.title}
                 </option>
               ))}
@@ -145,8 +151,7 @@ export function ContactSection({
 
           <button
             type="submit"
-            className="mt-6 w-full rounded-lg bg-chem py-3 font-medium text-white transition-opacity hover:opacity-90"
-          >
+            className="mt-6 w-full rounded-lg bg-chem py-3 font-medium text-white transition-opacity hover:opacity-90">
             문의 보내기
           </button>
         </form>

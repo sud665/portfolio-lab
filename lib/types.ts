@@ -48,3 +48,27 @@ export interface HireProcess {
   title: string;
   description: string;
 }
+
+export interface PortfolioItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  client: string;
+  year: number;
+  color: "chem" | "code" | "ai" | "amber";
+  techStack: string[];
+  features: string[];
+  description: string;
+  url: string;
+  order: number;
+}
+
+export interface Phase {
+  num: string;
+  category: string;
+  color: "chem" | "code" | "ai";
+  title: string;
+  desc: string;
+  hex: string;
+}

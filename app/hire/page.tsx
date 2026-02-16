@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getProfile, getProjects, getHireData } from "@/lib/content";
+import { getProfile, getHireData, getPortfolio } from "@/lib/content";
 import { HireHero } from "@/components/hire/HireHero";
 import { ServiceGrid } from "@/components/hire/ServiceGrid";
 import { ProcessFlow } from "@/components/hire/ProcessFlow";
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function HirePage() {
   const profile = getProfile();
-  const projects = getProjects();
+  const portfolio = getPortfolio();
   const hireData = getHireData();
 
   return (
@@ -27,7 +27,7 @@ export default function HirePage() {
       <HireHero />
       <ServiceGrid services={hireData.services} />
       <ProcessFlow process={hireData.process} />
-      <PortfolioGallery projects={projects} />
+      <PortfolioGallery portfolio={portfolio} />
       <TrustSection />
       <ContactSection
         phone={profile.phone}

@@ -8,6 +8,7 @@ import type {
   Career,
   HireService,
   HireProcess,
+  PortfolioItem,
 } from "./types";
 
 const contentDir = path.join(process.cwd(), "content");
@@ -152,6 +153,37 @@ export function getCareers(): Career[] {
           order: data.order ?? 99,
           description: content.trim(),
         } satisfies Career;
+      })
+      .sort((a, b) => a.order - b.order);
+  } catch {
+    return [];
+  }
+}
+
+export function getPortfolio(): PortfolioItem[] {
+  try {
+    const dir = path.join(contentDir, "hire", "portfolio");
+    const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
+
+    return files
+      .map((file) => {
+        const raw = fs.readFileSync(path.join(dir, file), "utf-8");
+        const { data, content } = matter(raw);
+
+        return {
+          id: data.id ?? "",
+          title: data.title ?? "",
+          subtitle: data.subtitle ?? "",
+          category: data.category ?? "",
+          client: data.client ?? "",
+          year: data.year ?? 2024,
+          color: data.color ?? "chem",
+          techStack: data.techStack ?? [],
+          features: data.features ?? [],
+          description: content.trim(),
+          url: data.url ?? "#",
+          order: data.order ?? 99,
+        } satisfies PortfolioItem;
       })
       .sort((a, b) => a.order - b.order);
   } catch {

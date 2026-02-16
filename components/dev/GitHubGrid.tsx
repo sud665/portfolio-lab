@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 
 function seededRandom(seed: number) {
@@ -14,12 +15,12 @@ function seededRandom(seed: number) {
 const WEEKS = 52;
 const DAYS = 7;
 
-const intensityColors = [
-  "transparent",
-  "rgba(108,92,231,0.2)",
-  "rgba(108,92,231,0.4)",
-  "rgba(108,92,231,0.6)",
-  "rgba(108,92,231,0.9)",
+const intensityClasses = [
+  "bg-white/5",
+  "bg-code/20",
+  "bg-code/40",
+  "bg-code/60",
+  "bg-code/90",
 ];
 
 export function GitHubGrid() {
@@ -39,12 +40,12 @@ export function GitHubGrid() {
         if (r < 0.75) return 2;
         if (r < 0.9) return 3;
         return 4;
-      })
+      }),
     );
   }, []);
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
+    <section className="mx-auto max-w-5xl px-6 py-20">
       <ScrollReveal>
         <h2 className="mb-12 text-center font-playfair text-3xl font-bold text-white">
           GitHub Activity
@@ -53,10 +54,7 @@ export function GitHubGrid() {
 
       <ScrollReveal delay={0.1}>
         <div className="relative overflow-x-auto rounded-xl border border-card-border bg-card p-6">
-          <div
-            className="mx-auto flex gap-[3px]"
-            style={{ width: "fit-content" }}
-          >
+          <div className="mx-auto flex w-fit gap-[3px]">
             {grid.map((week, wi) => (
               <div key={wi} className="flex flex-col gap-[3px]">
                 {week.map((intensity, di) => {
@@ -64,13 +62,10 @@ export function GitHubGrid() {
                   return (
                     <div
                       key={di}
-                      className="h-[11px] w-[11px] rounded-sm"
-                      style={{
-                        backgroundColor:
-                          intensityColors[intensity] || "transparent",
-                      }}
+                      className={`h-[11px] w-[11px] rounded-sm ${intensityClasses[intensity]}`}
                       onMouseEnter={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
+                        const rect =
+                          e.currentTarget.getBoundingClientRect();
                         setTooltip({
                           x: rect.left + rect.width / 2,
                           y: rect.top - 8,
@@ -88,11 +83,10 @@ export function GitHubGrid() {
           {/* Legend */}
           <div className="mt-4 flex items-center justify-end gap-1 text-xs text-gray-500">
             <span>Less</span>
-            {intensityColors.map((color, i) => (
+            {intensityClasses.map((cls, i) => (
               <div
                 key={i}
-                className="h-[11px] w-[11px] rounded-sm border border-card-border"
-                style={{ backgroundColor: color }}
+                className={`h-[11px] w-[11px] rounded-sm border border-card-border ${cls}`}
               />
             ))}
             <span>More</span>
@@ -102,8 +96,7 @@ export function GitHubGrid() {
           {tooltip && (
             <div
               className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-full rounded bg-gray-900 px-2 py-1 text-xs text-white"
-              style={{ left: tooltip.x, top: tooltip.y }}
-            >
+              style={{ left: tooltip.x, top: tooltip.y }}>
               {tooltip.text}
             </div>
           )}
