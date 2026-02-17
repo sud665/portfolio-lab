@@ -99,3 +99,14 @@ export interface ChatMessage {
   content: string;
   created_at: string;
 }
+
+// ── Lab ──
+
+export interface LabExperiment {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  status: "live" | "building" | "idea";
+  href?: string;
+}
