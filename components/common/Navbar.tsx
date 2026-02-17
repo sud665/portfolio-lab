@@ -10,6 +10,7 @@ const routes = [
   { href: "/dev", label: "Developer" },
   { href: "/hr", label: "Career" },
   { href: "/hire", label: "Hire Me" },
+  { href: "/madmax", label: "Lab" },
 ];
 
 const accentText: Record<string, string> = {
@@ -17,6 +18,7 @@ const accentText: Record<string, string> = {
   "/dev": "text-code",
   "/hr": "text-amber",
   "/hire": "text-chem",
+  "/madmax": "text-mad",
 };
 
 const accentPill: Record<string, string> = {
@@ -24,6 +26,7 @@ const accentPill: Record<string, string> = {
   "/dev": "bg-code/10",
   "/hr": "bg-amber/10",
   "/hire": "bg-chem/10",
+  "/madmax": "bg-mad/10",
 };
 
 const accentDot: Record<string, string> = {
@@ -31,6 +34,7 @@ const accentDot: Record<string, string> = {
   "/dev": "bg-code",
   "/hr": "bg-amber",
   "/hire": "bg-chem",
+  "/madmax": "bg-mad",
 };
 
 export function Navbar() {
