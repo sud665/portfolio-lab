@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, type ReactNode } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Calendar, Building2 } from "lucide-react";
 
@@ -12,6 +13,13 @@ const cardGradients: Record<string, string> = {
   code: "from-code via-[#025a9e] to-[#021b30]",
   ai: "from-ai via-[#5a1c37] to-[#1e0a13]",
   amber: "from-amber via-[#8a6420] to-[#2a1e08]",
+};
+
+const colorOverlays: Record<string, string> = {
+  chem: "from-[#2a0512]/95 via-[#8a0c3a]/50",
+  code: "from-[#021b30]/95 via-[#025a9e]/50",
+  ai: "from-[#1e0a13]/95 via-[#5a1c37]/50",
+  amber: "from-[#2a1e08]/95 via-[#8a6420]/50",
 };
 
 const badgeColors: Record<string, string> = {
@@ -28,40 +36,110 @@ const dotColors: Record<string, string> = {
   amber: "bg-amber",
 };
 
-function BrowserMockup({ size }: { size: "sm" | "md" | "lg" }) {
-  const isSmall = size === "sm";
-  const dotSize = isSmall ? "h-1.5 w-1.5" : "h-2.5 w-2.5";
-  const barPadding = isSmall ? "px-2 py-1.5" : "px-4 py-2.5";
-  const bodyPadding = isSmall ? "p-3" : "p-5";
+function getThumbnailPath(id: string): string {
+  return `/images/portfolio/${id}.png`;
+}
+
+function CardBg({
+  id,
+  alt,
+  color,
+}: {
+  id: string;
+  alt: string;
+  color: string;
+}) {
+  const [imgError, setImgError] = useState(false);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm">
+    <div className="absolute inset-0 overflow-hidden">
+      {!imgError ? (
+        <Image
+          src={getThumbnailPath(id)}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 50vw"
+          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <div
+          className={`h-full w-full bg-gradient-to-br ${cardGradients[color]}`}
+        />
+      )}
       <div
-        className={`flex items-center gap-1.5 border-b border-white/10 ${barPadding}`}
-      >
-        <div className={`rounded-full bg-white/50 ${dotSize}`} />
-        <div className={`rounded-full bg-white/35 ${dotSize}`} />
-        <div className={`rounded-full bg-white/20 ${dotSize}`} />
-        <div className="ml-3 h-4 flex-1 rounded-full bg-white/10" />
+        className={`absolute inset-0 bg-gradient-to-t ${colorOverlays[color]} to-transparent`}
+      />
+    </div>
+  );
+}
+
+function SiteThumbnail({ id, alt }: { id: string; alt: string }) {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-white/15 shadow-2xl">
+      <div className="flex items-center gap-1.5 border-b border-white/10 bg-black/20 px-3 py-2 backdrop-blur-sm">
+        <div className="h-2 w-2 rounded-full bg-white/50" />
+        <div className="h-2 w-2 rounded-full bg-white/35" />
+        <div className="h-2 w-2 rounded-full bg-white/20" />
+        <div className="ml-2 h-3.5 flex-1 rounded-full bg-white/10" />
       </div>
-      <div className={`space-y-2.5 ${bodyPadding}`}>
-        <div className="h-3.5 w-2/3 rounded-full bg-white/15" />
-        <div className="h-2.5 w-full rounded-full bg-white/10" />
-        <div className="h-2.5 w-4/5 rounded-full bg-white/10" />
-        {!isSmall && (
-          <>
-            <div className="h-2.5 w-3/5 rounded-full bg-white/[0.08]" />
-            <div className="mt-3 grid grid-cols-3 gap-2">
-              <div className="h-10 rounded-lg bg-white/10" />
-              <div className="h-10 rounded-lg bg-white/[0.08]" />
-              <div className="h-10 rounded-lg bg-white/10" />
-            </div>
-            {size === "lg" && (
-              <div className="h-6 w-24 rounded-md bg-white/15" />
-            )}
-          </>
-        )}
-      </div>
+      {!imgError ? (
+        <Image
+          src={getThumbnailPath(id)}
+          alt={alt}
+          width={800}
+          height={500}
+          className="w-full object-cover object-top"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <div className="aspect-[16/10] bg-white/5 p-4">
+          <div className="h-3 w-2/3 rounded-full bg-white/10" />
+          <div className="mt-2.5 h-2 w-full rounded-full bg-white/[0.07]" />
+          <div className="mt-2 h-2 w-4/5 rounded-full bg-white/[0.07]" />
+          <div className="mt-2 h-2 w-3/5 rounded-full bg-white/[0.06]" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ModalHeroBg({
+  id,
+  alt,
+  color,
+}: {
+  id: string;
+  alt: string;
+  color: string;
+}) {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {!imgError ? (
+        <Image
+          src={getThumbnailPath(id)}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, 80vw"
+          className="object-cover object-top"
+          priority
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <div
+          className={`h-full w-full bg-gradient-to-br ${cardGradients[color]}`}
+        />
+      )}
+      <div
+        className={`absolute inset-0 bg-gradient-to-t from-card via-card/70 to-transparent`}
+      />
+      <div
+        className={`absolute inset-0 bg-gradient-to-r ${colorOverlays[color]} to-transparent opacity-60`}
+      />
     </div>
   );
 }
@@ -147,43 +225,33 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
               selectedId={selectedId}
               onSelect={handleSelect}
             >
-              <div
-                className={`relative flex min-h-96 flex-col bg-gradient-to-br ${cardGradients[portfolio[0].color]} p-8 md:min-h-[420px] md:flex-row md:items-end md:p-12`}
-              >
-                <div className="mb-8 flex justify-center md:absolute md:right-10 md:top-1/2 md:mb-0 md:w-72 md:-translate-y-1/2 lg:w-80">
-                  <div className="w-64 transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-105 md:w-full">
-                    <BrowserMockup size="lg" />
-                  </div>
-                </div>
-
-                <div className="relative z-10 max-w-sm md:max-w-md">
-                  <span className="mb-3 inline-block rounded-full bg-white/20 px-4 py-1 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-sm">
+              <div className="relative min-h-96 overflow-hidden md:min-h-[420px]">
+                <CardBg
+                  id={portfolio[0].id}
+                  alt={portfolio[0].title}
+                  color={portfolio[0].color}
+                />
+                <div className="relative z-10 flex min-h-96 flex-col justify-end p-8 md:min-h-[420px] md:p-12">
+                  <span className="mb-3 text-xs font-bold uppercase tracking-widest text-white/70">
                     Featured — {portfolio[0].category}
                   </span>
                   <h3 className="font-playfair text-3xl font-bold text-white md:text-5xl">
                     {portfolio[0].title}
                   </h3>
-                  <p className="mt-3 text-base leading-relaxed text-white/80">
+                  <p className="mt-3 max-w-lg text-base leading-relaxed text-white/85">
                     {portfolio[0].subtitle}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {portfolio[0].techStack.slice(0, 3).map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-md bg-white/10 px-2.5 py-1 text-xs font-medium text-white/60 backdrop-blur-sm"
+                        className="rounded-md bg-black/25 px-2.5 py-1 text-xs font-medium text-white/70 backdrop-blur-sm"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
-
-                <div className="pointer-events-none absolute right-6 top-6 hidden md:grid md:grid-cols-5 md:gap-2 md:opacity-[0.07]">
-                  {Array.from({ length: 25 }).map((_, i) => (
-                    <div key={i} className="h-2 w-2 rounded-full bg-white" />
-                  ))}
-                </div>
-                <div className="pointer-events-none absolute -bottom-20 -left-20 h-56 w-56 rounded-full border border-white/[0.05]" />
               </div>
             </CardShell>
           </ScrollReveal>
@@ -192,7 +260,6 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
         {/* ━━ ROW 2 : 5 : 7 Asymmetric ━━━━━━━━━━━━━━━━━━━━━━━━ */}
         {portfolio.length > 2 && (
           <div className="grid grid-cols-1 gap-5 md:grid-cols-12">
-            {/* Narrow-tall left */}
             {portfolio[1] && (
               <ScrollReveal className="md:col-span-5">
                 <CardShell
@@ -201,32 +268,28 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
                   onSelect={handleSelect}
                   className="h-full"
                 >
-                  <div
-                    className={`relative flex h-full min-h-80 flex-col bg-gradient-to-tr ${cardGradients[portfolio[1].color]} p-7 md:min-h-[460px] md:p-8`}
-                  >
-                    <div className="mb-auto flex justify-end">
-                      <div className="w-32 transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-1 group-hover:scale-105">
-                        <BrowserMockup size="sm" />
-                      </div>
-                    </div>
-                    <div className="relative z-10 mt-auto">
-                      <span className="mb-2 inline-block rounded-full bg-white/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm">
+                  <div className="relative h-full min-h-80 overflow-hidden md:min-h-[460px]">
+                    <CardBg
+                      id={portfolio[1].id}
+                      alt={portfolio[1].title}
+                      color={portfolio[1].color}
+                    />
+                    <div className="relative z-10 flex h-full min-h-80 flex-col justify-end p-7 md:min-h-[460px] md:p-8">
+                      <span className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/70">
                         {portfolio[1].category}
                       </span>
                       <h3 className="font-playfair text-2xl font-bold text-white md:text-3xl">
                         {portfolio[1].title}
                       </h3>
-                      <p className="mt-1.5 text-sm text-white/70">
+                      <p className="mt-1.5 text-sm text-white/75">
                         {portfolio[1].subtitle}
                       </p>
                     </div>
-                    <div className="pointer-events-none absolute -left-10 top-1/3 h-36 w-36 rounded-full border border-white/[0.06]" />
                   </div>
                 </CardShell>
               </ScrollReveal>
             )}
 
-            {/* Wide right */}
             {portfolio[2] && (
               <ScrollReveal delay={0.1} className="md:col-span-7">
                 <CardShell
@@ -235,26 +298,23 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
                   onSelect={handleSelect}
                   className="h-full"
                 >
-                  <div
-                    className={`relative flex h-full min-h-80 flex-col bg-gradient-to-bl ${cardGradients[portfolio[2].color]} p-7 md:min-h-[460px] md:flex-row md:items-end md:p-10`}
-                  >
-                    <div className="relative z-10 flex flex-1 flex-col justify-end">
-                      <span className="mb-2 inline-block rounded-full bg-white/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm">
+                  <div className="relative h-full min-h-80 overflow-hidden md:min-h-[460px]">
+                    <CardBg
+                      id={portfolio[2].id}
+                      alt={portfolio[2].title}
+                      color={portfolio[2].color}
+                    />
+                    <div className="relative z-10 flex h-full min-h-80 flex-col justify-end p-7 md:min-h-[460px] md:p-10">
+                      <span className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/70">
                         {portfolio[2].category}
                       </span>
                       <h3 className="font-playfair text-2xl font-bold text-white md:text-3xl">
                         {portfolio[2].title}
                       </h3>
-                      <p className="mt-1.5 max-w-xs text-sm text-white/70">
+                      <p className="mt-1.5 max-w-xs text-sm text-white/75">
                         {portfolio[2].subtitle}
                       </p>
                     </div>
-                    <div className="mt-6 flex justify-end md:mt-0 md:w-48 md:shrink-0">
-                      <div className="w-44 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105 md:w-full">
-                        <BrowserMockup size="md" />
-                      </div>
-                    </div>
-                    <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rotate-45 rounded-3xl border border-white/[0.04]" />
                   </div>
                 </CardShell>
               </ScrollReveal>
@@ -265,7 +325,6 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
         {/* ━━ ROW 3 : 7 : 5 Reversed ━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
         {portfolio.length > 4 && (
           <div className="grid grid-cols-1 gap-5 md:grid-cols-12">
-            {/* Wide left */}
             {portfolio[3] && (
               <ScrollReveal className="md:col-span-7">
                 <CardShell
@@ -274,36 +333,28 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
                   onSelect={handleSelect}
                   className="h-full"
                 >
-                  <div
-                    className={`relative flex h-full min-h-80 flex-col bg-gradient-to-r ${cardGradients[portfolio[3].color]} p-7 md:min-h-[460px] md:flex-row md:items-end md:p-10`}
-                  >
-                    <div className="mb-6 flex justify-start md:mb-0 md:w-48 md:shrink-0">
-                      <div className="w-44 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105 md:w-full">
-                        <BrowserMockup size="md" />
-                      </div>
-                    </div>
-                    <div className="relative z-10 flex flex-1 flex-col justify-end md:pl-8">
-                      <span className="mb-2 inline-block rounded-full bg-white/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm">
+                  <div className="relative h-full min-h-80 overflow-hidden md:min-h-[460px]">
+                    <CardBg
+                      id={portfolio[3].id}
+                      alt={portfolio[3].title}
+                      color={portfolio[3].color}
+                    />
+                    <div className="relative z-10 flex h-full min-h-80 flex-col justify-end p-7 md:min-h-[460px] md:p-10">
+                      <span className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/70">
                         {portfolio[3].category}
                       </span>
                       <h3 className="font-playfair text-2xl font-bold text-white md:text-3xl">
                         {portfolio[3].title}
                       </h3>
-                      <p className="mt-1.5 max-w-xs text-sm text-white/70">
+                      <p className="mt-1.5 max-w-xs text-sm text-white/75">
                         {portfolio[3].subtitle}
                       </p>
-                    </div>
-                    <div className="pointer-events-none absolute right-8 top-8 opacity-[0.06]">
-                      <div className="h-px w-20 bg-white" />
-                      <div className="ml-10 mt-4 h-px w-16 bg-white" />
-                      <div className="ml-5 mt-4 h-px w-12 bg-white" />
                     </div>
                   </div>
                 </CardShell>
               </ScrollReveal>
             )}
 
-            {/* Narrow-tall right */}
             {portfolio[4] && (
               <ScrollReveal delay={0.1} className="md:col-span-5">
                 <CardShell
@@ -312,27 +363,23 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
                   onSelect={handleSelect}
                   className="h-full"
                 >
-                  <div
-                    className={`relative flex h-full min-h-80 flex-col bg-gradient-to-b ${cardGradients[portfolio[4].color]} p-7 md:min-h-[460px] md:p-8`}
-                  >
-                    <div className="mb-auto flex justify-center">
-                      <div className="w-40 transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-105">
-                        <BrowserMockup size="sm" />
-                      </div>
-                    </div>
-                    <div className="relative z-10 mt-auto">
-                      <span className="mb-2 inline-block rounded-full bg-white/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm">
+                  <div className="relative h-full min-h-80 overflow-hidden md:min-h-[460px]">
+                    <CardBg
+                      id={portfolio[4].id}
+                      alt={portfolio[4].title}
+                      color={portfolio[4].color}
+                    />
+                    <div className="relative z-10 flex h-full min-h-80 flex-col justify-end p-7 md:min-h-[460px] md:p-8">
+                      <span className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/70">
                         {portfolio[4].category}
                       </span>
                       <h3 className="font-playfair text-2xl font-bold text-white md:text-3xl">
                         {portfolio[4].title}
                       </h3>
-                      <p className="mt-1.5 text-sm text-white/70">
+                      <p className="mt-1.5 text-sm text-white/75">
                         {portfolio[4].subtitle}
                       </p>
                     </div>
-                    <div className="pointer-events-none absolute -bottom-12 -right-12 h-40 w-40 rounded-full border border-white/[0.05]" />
-                    <div className="pointer-events-none absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-white/[0.02]" />
                   </div>
                 </CardShell>
               </ScrollReveal>
@@ -348,40 +395,72 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
               selectedId={selectedId}
               onSelect={handleSelect}
             >
-              <div
-                className={`relative flex min-h-64 flex-col items-center justify-center overflow-hidden bg-gradient-to-tl ${cardGradients[portfolio[5].color]} p-8 text-center md:min-h-72 md:p-12`}
-              >
-                <span className="mb-4 inline-block rounded-full bg-white/20 px-4 py-1 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-sm">
-                  {portfolio[5].category}
-                </span>
-                <h3 className="font-playfair text-3xl font-bold text-white md:text-4xl">
-                  {portfolio[5].title}
-                </h3>
-                <p className="mt-2 max-w-md text-base text-white/75">
-                  {portfolio[5].subtitle}
-                </p>
-                <div className="mt-4 flex flex-wrap justify-center gap-2">
-                  {portfolio[5].techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md bg-white/10 px-2.5 py-1 text-xs font-medium text-white/60 backdrop-blur-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="pointer-events-none absolute -left-4 top-6 w-28 -rotate-12 opacity-[0.08]">
-                  <BrowserMockup size="sm" />
-                </div>
-                <div className="pointer-events-none absolute -right-4 bottom-4 w-24 rotate-6 opacity-[0.06]">
-                  <BrowserMockup size="sm" />
+              <div className="relative min-h-64 overflow-hidden md:min-h-72">
+                <CardBg
+                  id={portfolio[5].id}
+                  alt={portfolio[5].title}
+                  color={portfolio[5].color}
+                />
+                <div className="relative z-10 flex min-h-64 flex-col justify-end p-8 md:min-h-72 md:p-12">
+                  <span className="mb-3 text-xs font-bold uppercase tracking-widest text-white/70">
+                    {portfolio[5].category}
+                  </span>
+                  <h3 className="font-playfair text-3xl font-bold text-white md:text-4xl">
+                    {portfolio[5].title}
+                  </h3>
+                  <p className="mt-2 max-w-md text-base text-white/80">
+                    {portfolio[5].subtitle}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {portfolio[5].techStack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-md bg-black/25 px-2.5 py-1 text-xs font-medium text-white/70 backdrop-blur-sm"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </CardShell>
           </ScrollReveal>
         )}
       </div>
+
+      {/* ━━ ROW 5+ : Compact grid for remaining items ━━━━━━━━━ */}
+      {portfolio.length > 6 && (
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {portfolio.slice(6).map((item, i) => (
+            <ScrollReveal key={item.id} delay={i * 0.06}>
+              <CardShell
+                item={item}
+                selectedId={selectedId}
+                onSelect={handleSelect}
+              >
+                <div className="relative min-h-64 overflow-hidden">
+                  <CardBg
+                    id={item.id}
+                    alt={item.title}
+                    color={item.color}
+                  />
+                  <div className="relative z-10 flex min-h-64 flex-col justify-end p-5">
+                    <span className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/70">
+                      {item.category}
+                    </span>
+                    <h3 className="font-playfair text-xl font-bold text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-xs text-white/75">
+                      {item.subtitle}
+                    </p>
+                  </div>
+                </div>
+              </CardShell>
+            </ScrollReveal>
+          ))}
+        </div>
+      )}
 
       {/* ━━ Expanded Overlay ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <AnimatePresence>
@@ -401,41 +480,40 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
               className="fixed inset-3 z-50 flex flex-col overflow-hidden rounded-3xl border border-card-border bg-card sm:inset-6 md:inset-10 lg:inset-x-[12%] lg:inset-y-6"
             >
-              <div
-                className={`relative shrink-0 bg-gradient-to-br ${cardGradients[selectedItem.color]} px-8 pb-10 pt-16 md:px-12`}
-              >
+              <div className="relative shrink-0">
+                <ModalHeroBg
+                  id={selectedItem.id}
+                  alt={selectedItem.title}
+                  color={selectedItem.color}
+                />
+
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedId(null);
                   }}
-                  className="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all hover:bg-black/50 hover:scale-110"
+                  className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white backdrop-blur-md transition-all hover:bg-black/60 hover:scale-110"
                 >
                   <X className="h-5 w-5" />
                 </button>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15, duration: 0.4 }}
-                  className="mb-8 flex justify-center"
-                >
-                  <div className="w-full max-w-sm">
-                    <BrowserMockup size="lg" />
-                  </div>
-                </motion.div>
-
-                <span className="mb-3 inline-block rounded-full bg-white/20 px-4 py-1 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-sm">
-                  {selectedItem.category}
-                </span>
-                <h2 className="font-playfair text-3xl font-bold text-white md:text-4xl">
-                  {selectedItem.title}
-                </h2>
-                <p className="mt-2 text-base text-white/80">
-                  {selectedItem.subtitle}
-                </p>
-
-                <div className="pointer-events-none absolute -bottom-16 -right-16 h-48 w-48 rounded-full border border-white/[0.05]" />
+                <div className="relative z-10 flex min-h-72 flex-col justify-end px-8 pb-8 pt-20 md:min-h-80 md:px-12 md:pb-10">
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15, duration: 0.4 }}
+                  >
+                    <span className="mb-3 inline-block text-xs font-bold uppercase tracking-widest text-white/70">
+                      {selectedItem.category}
+                    </span>
+                    <h2 className="font-playfair text-3xl font-bold text-white md:text-4xl">
+                      {selectedItem.title}
+                    </h2>
+                    <p className="mt-2 max-w-lg text-base text-white/80">
+                      {selectedItem.subtitle}
+                    </p>
+                  </motion.div>
+                </div>
               </div>
 
               <motion.div

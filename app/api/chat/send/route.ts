@@ -91,15 +91,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Telegram 전송 (실패해도 메시지는 이미 저장됨)
+  // Telegram 전송 (실패해도 메시지는 이미 저장됨 — 방문자에게는 정상 응답)
   const telegramText =
     `<b>새 메시지</b> (${page ?? "unknown"})\n` +
     `세션: <code>${activeSessionId}</code>\n\n` +
     `${sanitized}`;
 
-  sendTelegramMessage(telegramText).catch(() => {
-    // Telegram 전송 실패 — 로그만 남기고 방문자에게는 정상 응답
-  });
+  await sendTelegramMessage(telegramText);
 
   return NextResponse.json({
     session_id: activeSessionId,

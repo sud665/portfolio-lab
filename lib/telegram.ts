@@ -1,34 +1,26 @@
-import https from "node:https";
-
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN!;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID!;
 
-export function sendTelegramMessage(text: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    const payload = JSON.stringify({
-      chat_id: CHAT_ID,
-      text,
-      parse_mode: "HTML",
-    });
+export async function sendTelegramMessage(text: string): Promise<boolean> {
+  const res = await fetch(
+    `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text,
+        parse_mode: "HTML",
+      }),
+    }
+  );
 
-    const req = https.request(
-      {
-        hostname: "api.telegram.org",
-        path: `/bot${BOT_TOKEN}/sendMessage`,
-        method: "POST",
-        family: 4,
-        headers: {
-          "Content-Type": "application/json",
-          "Content-Length": Buffer.byteLength(payload),
-        },
-      },
-      (res) => resolve(res.statusCode === 200)
-    );
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    console.error(`[Telegram] ${res.status} ${body}`);
+  }
 
-    req.on("error", () => resolve(false));
-    req.write(payload);
-    req.end();
-  });
+  return res.ok;
 }
 
 export function verifyTelegramWebhook(

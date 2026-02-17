@@ -25,10 +25,10 @@ export default function HirePage() {
   return (
     <>
       <HireHero />
-      <ServiceGrid services={hireData.services} />
-      <ProcessFlow process={hireData.process} />
       <PortfolioGallery portfolio={portfolio} />
       <TrustSection />
+      <ServiceGrid services={hireData.services} />
+      <ProcessFlow process={hireData.process} />
       <ContactSection
         phone={profile.phone}
         email={profile.email}

@@ -1,160 +1,128 @@
 "use client";
 
+import { techStacks } from "@/lib/constants";
+
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 
-const strengths = [
-  {
-    icon: "🔄",
-    title: "빠른 학습력",
-    highlight: "비전공 → AI Agent 4년",
-    description:
-      "화학공학 전공에서 독학으로 풀스택 개발자로 전환, 4년 만에 LangChain 기반 AI Agent 시스템까지 개발했습니다.",
-    color: "chem" as const,
-  },
-  {
-    icon: "🏭",
-    title: "도메인 지식",
-    highlight: "제조업 현장 7년",
-    description:
-      "7년간의 제조업 경험으로 기술과 비즈니스를 연결하는 관점을 갖고 있습니다.",
-    color: "amber" as const,
-  },
-  {
-    icon: "🚀",
-    title: "자기주도 실행력",
-    highlight: "기획 → 배포 단독 수행",
-    description:
-      "스타트업에서 기획부터 배포까지 직접 수행. 문제를 찾아 해결합니다.",
-    color: "ai" as const,
-  },
-  {
-    icon: "🤖",
-    title: "최신 기술 적응",
-    highlight: "LangChain · LangGraph 실전",
-    description:
-      "최신 AI 프레임워크를 실전에 적용. 기술 트렌드에 빠르게 대응합니다.",
-    color: "code" as const,
-  },
-  {
-    icon: "📋",
-    title: "풀사이클 개발",
-    highlight: "기획 ~ 운영 전 과정",
-    description: "기획, 디자인, 개발, 배포, 운영까지 전체를 경험한 개발자입니다.",
-    color: "chem" as const,
-  },
-];
-
-const colorConfig: Record<
+const categoryAccent: Record<
   string,
-  {
-    iconBg: string;
-    pill: string;
-    hoverBorder: string;
-    hoverGlow: string;
-    line: string;
-  }
+  { label: string; border: string; bg: string; text: string; dot: string; highlightBorder: string; highlightBg: string; highlightText: string }
 > = {
-  chem: {
-    iconBg: "border-chem/20 bg-chem/[0.07]",
-    pill: "bg-chem/10 text-chem",
-    hoverBorder: "group-hover:border-chem/30",
-    hoverGlow: "group-hover:shadow-chem/10",
-    line: "via-chem/40",
+  Frontend: {
+    label: "text-code",
+    border: "border-code/15",
+    bg: "bg-code/[0.06]",
+    text: "text-code/80",
+    dot: "bg-code",
+    highlightBorder: "border-code/30",
+    highlightBg: "bg-code/12",
+    highlightText: "text-code",
   },
-  code: {
-    iconBg: "border-code/20 bg-code/[0.07]",
-    pill: "bg-code/10 text-code",
-    hoverBorder: "group-hover:border-code/30",
-    hoverGlow: "group-hover:shadow-code/10",
-    line: "via-code/40",
+  Backend: {
+    label: "text-chem",
+    border: "border-chem/15",
+    bg: "bg-chem/[0.06]",
+    text: "text-chem/80",
+    dot: "bg-chem",
+    highlightBorder: "border-chem/30",
+    highlightBg: "bg-chem/12",
+    highlightText: "text-chem",
   },
-  ai: {
-    iconBg: "border-ai/20 bg-ai/[0.07]",
-    pill: "bg-ai/10 text-ai",
-    hoverBorder: "group-hover:border-ai/30",
-    hoverGlow: "group-hover:shadow-ai/10",
-    line: "via-ai/40",
+  "AI / ML": {
+    label: "text-ai",
+    border: "border-ai/15",
+    bg: "bg-ai/[0.06]",
+    text: "text-ai/80",
+    dot: "bg-ai",
+    highlightBorder: "border-ai/30",
+    highlightBg: "bg-ai/12",
+    highlightText: "text-ai",
   },
-  amber: {
-    iconBg: "border-amber/20 bg-amber/[0.07]",
-    pill: "bg-amber/10 text-amber",
-    hoverBorder: "group-hover:border-amber/30",
-    hoverGlow: "group-hover:shadow-amber/10",
-    line: "via-amber/40",
+  DevOps: {
+    label: "text-amber",
+    border: "border-amber/15",
+    bg: "bg-amber/[0.06]",
+    text: "text-amber/80",
+    dot: "bg-amber",
+    highlightBorder: "border-amber/30",
+    highlightBg: "bg-amber/12",
+    highlightText: "text-amber",
+  },
+  Domain: {
+    label: "text-gray-400",
+    border: "border-gray-500/15",
+    bg: "bg-gray-500/[0.06]",
+    text: "text-gray-400/80",
+    dot: "bg-gray-500",
+    highlightBorder: "border-gray-400/30",
+    highlightBg: "bg-gray-400/12",
+    highlightText: "text-gray-300",
   },
 };
 
-const gridClasses = [
-  "md:col-span-7 md:row-span-2",
-  "md:col-span-5",
-  "md:col-span-5",
-  "md:col-span-6",
-  "md:col-span-6",
-];
+const gridClasses: Record<string, string> = {
+  Frontend: "",
+  Backend: "",
+  "AI / ML": "md:col-span-2",
+  DevOps: "md:col-span-2",
+  Domain: "md:col-span-2",
+};
 
 export function Strengths() {
   return (
-    <section aria-label="핵심 강점" className="mx-auto max-w-6xl px-6 py-24">
+    <section aria-label="기술 스택" className="mx-auto max-w-4xl px-6 py-24">
       <ScrollReveal>
         <div className="mb-14">
           <p className="mb-3 font-mono text-sm uppercase tracking-widest text-amber">
-            Strengths
+            Tech Stack
           </p>
           <h2 className="font-playfair text-4xl font-bold text-white md:text-5xl">
-            핵심 강점
+            기술 스택
           </h2>
         </div>
       </ScrollReveal>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
-        {strengths.map((s, i) => {
-          const config = colorConfig[s.color];
-          const isHero = i === 0;
-          const gridPos = gridClasses[i] ?? "md:col-span-6";
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        {techStacks.map((stack, i) => {
+          const accent = categoryAccent[stack.category] ?? categoryAccent.Domain;
+          const gridClass = gridClasses[stack.category] ?? "";
 
           return (
             <ScrollReveal
-              key={s.title}
-              delay={i * 0.08}
-              className={gridPos}
+              key={stack.category}
+              delay={i * 0.1}
+              className={gridClass}
             >
               <div
-                className={`group relative h-full overflow-hidden rounded-2xl border border-card-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${config.hoverGlow} ${config.hoverBorder} ${isHero ? "p-8 md:p-9" : "p-6"}`}
+                className={`h-full rounded-2xl border ${accent.border} bg-card/60 p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-lg md:p-7`}
               >
-                {/* Top accent line */}
-                <div
-                  className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent ${config.line} to-transparent`}
-                />
-
-                {/* Icon */}
-                <div
-                  className={`flex items-center justify-center rounded-xl border backdrop-blur-sm ${config.iconBg} ${isHero ? "h-16 w-16" : "h-12 w-12"}`}
-                >
-                  <span className={isHero ? "text-3xl" : "text-xl"}>
-                    {s.icon}
-                  </span>
+                {/* Category header */}
+                <div className="flex items-center gap-2.5">
+                  <span
+                    className={`h-2 w-2 rounded-full ${accent.dot}`}
+                  />
+                  <h3
+                    className={`text-sm font-bold uppercase tracking-wider ${accent.label}`}
+                  >
+                    {stack.category}
+                  </h3>
                 </div>
 
-                {/* Title */}
-                <h3
-                  className={`mt-4 font-semibold text-white ${isHero ? "font-playfair text-xl" : "text-base"}`}
-                >
-                  {s.title}
-                </h3>
-
-                {/* Evidence pill */}
-                <span
-                  className={`mt-3 inline-block rounded-full px-3 py-1 text-xs font-semibold ${config.pill}`}
-                >
-                  {s.highlight}
-                </span>
-
-                {/* Description */}
-                <p
-                  className={`mt-3 leading-relaxed text-gray-400 ${isHero ? "text-sm" : "text-xs"}`}
-                >
-                  {s.description}
-                </p>
+                {/* Tags */}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {stack.items.map((item) => (
+                    <span
+                      key={item.name}
+                      className={`rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors duration-200 hover:border-opacity-40 ${
+                        item.highlight
+                          ? `${accent.highlightBorder} ${accent.highlightBg} ${accent.highlightText}`
+                          : `${accent.border} ${accent.bg} ${accent.text}`
+                      }`}
+                    >
+                      {item.name}
+                    </span>
+                  ))}
+                </div>
               </div>
             </ScrollReveal>
           );

@@ -1,15 +1,15 @@
 ---
 name: "서외구"
 title: "풀스택 개발자"
-email: "your@email.com"
-phone: "010-0000-0000"
-github: "https://github.com/yourname"
-blog: ""
+email: "seogolf665@gmail.com"
+phone: "010-7320-7733"
+github: "https://github.com/sud665"
+blog: "https://velog.io/@sud665"
 linkedin: ""
 kakao: ""
 resume_pdf: "/files/resume.pdf"
-tagline: "화학에서 코드로, 코드에서 AI로"
-position: "AI Agent 개발자 | 제조 도메인 DX 전문"
+tagline: "7년의 현장, 4년의 코드, 그리고 AI"
+position: "풀스택 개발자 · AI Engineer"
 ---
 
 화학공학과를 졸업하고 KCC에서 7년간 현장의 문제를 직접 마주했습니다.

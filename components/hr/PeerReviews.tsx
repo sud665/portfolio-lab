@@ -17,89 +17,159 @@ interface Review {
   accent: "chem" | "code" | "ai" | "amber";
 }
 
-const reviews: Review[] = [
+const pairReviews: Review[] = [
   {
-    quote: "현장 공정 데이터를 직접 분석해서 개선안까지 만들던 사람. 기술 전환 후에도 그 꼼꼼함은 그대로임",
-    name: "김도윤",
-    role: "KCC 선임 연구원",
-    accent: "chem",
-  },
-  {
-    quote: "프로젝트 팀장하면 새벽까지 코드리뷰 해주던 사람. 리뷰 코멘트가 항상 배울 점이 있음",
-    name: "이서연",
-    role: "공동 개발자",
-    accent: "code",
-  },
-  {
-    quote: "비전공인데 우리보다 빨리 이해하고 응용까지 해버림. 학습 속도가 비정상적",
-    name: "박현우",
-    role: "기술 스터디 동료",
-    accent: "ai",
-  },
-  {
-    quote: "제조업 7년 경험이 코드에 묻어남. 문제를 정의하는 것부터 남다름",
-    name: "정민지",
-    role: "스타트업 PM",
+    quote:
+      "여러 아이디어를 제공해 주시고 시도를 두려워 하지 않으시는 점이 되게 와 닿았습니다. 노력하시는 모습이 굉장히 좋았고 저 또한 페어님으로 인하여 동력 할 수 있는 힘을 얻은 것 같습니다.",
+    name: "성재호",
+    role: "페어 프로그래밍 동기",
     accent: "amber",
   },
   {
-    quote: "기획부터 배포까지 혼자 풀사이클을 돌릴 수 있는 몇 안 되는 개발자",
-    name: "최준혁",
-    role: "공동 개발자",
-    accent: "chem",
-  },
-  {
-    quote: "어려운 개념도 현장 비유로 설명해줘서 비개발 직군도 이해시킴",
-    name: "한소율",
-    role: "기술 스터디 동료",
+    quote:
+      "세세한 부분을 놓치지 않고 알려주어 풀리지 않았던 문제를 풀 수 있게 해 주었습니다.",
+    name: "임익환",
+    role: "페어 프로그래밍 동기",
     accent: "code",
   },
   {
-    quote: "삽질해서 해결하면 노션에 트러블슈팅 문서까지 남기는 타입. 팀 전체가 혜택받음",
-    name: "윤재민",
-    role: "풀스택 교육과정 동기",
-    accent: "ai",
-  },
-  {
-    quote: "포기를 모르는 사람. 배포 장애 새벽 3시에도 끝까지 붙잡고 해결함",
-    name: "송하은",
-    role: "공동 개발자",
-    accent: "amber",
-  },
-  {
-    quote: "공장 자동화 경험이 있어서 시스템 설계할 때 실무 관점이 정확함",
-    name: "임태현",
-    role: "KCC 공정 엔지니어",
+    quote:
+      "주제에 대한 키워드와 활용법이 미리 숙지가 되어서 프로그램이 매끄럽게 진행되었어요",
+    name: "임명섭",
+    role: "페어 프로그래밍 동기",
     accent: "chem",
   },
   {
-    quote: "코드 퀄리티에 진심인 사람. PR 올리면 리팩토링 제안까지 같이 옴",
-    name: "강예진",
-    role: "기술 스터디 동료",
+    quote: "문제해결을 위한 끈기와 침착한 태도가 뛰어났습니다",
+    name: "김준영",
+    role: "페어 프로그래밍 동기",
+    accent: "ai",
+  },
+  {
+    quote:
+      "페어 진행하면서 막히는 부분에서도 계속해서 시도를 반복하면서 꾸준히 알아가려는 모습이 좋았습니다",
+    name: "김현규",
+    role: "페어 프로그래밍 동기",
+    accent: "amber",
+  },
+  {
+    quote:
+      "제가 많이 부족한 수학적인 측면에서 많이 도움이 되었습니다. 친절하게 많이 알려주셔서 감사했습니다!",
+    name: "박한우",
+    role: "페어 프로그래밍 동기",
     accent: "code",
   },
   {
-    quote: "모르면 모른다고 솔직하게 말하고 다음날 해결책 들고 옴",
-    name: "오승민",
-    role: "풀스택 교육과정 동기",
-    accent: "ai",
-  },
-  {
-    quote: "기술 발표를 시키면 비개발자도 고개를 끄덕이게 만드는 능력이 있음",
-    name: "신유진",
-    role: "공동 개발자",
-    accent: "amber",
-  },
-  {
-    quote: "LangChain 새 버전 나오면 항상 먼저 테스트하고 공유해줌. AI 트렌드 센서 같은 사람",
-    name: "배성호",
-    role: "AI 스터디 동료",
+    quote:
+      "차분하게 예외사항들을 꼼꼼히 체크하는 부분이 좋았습니다. 코딩이 익숙해지면 속도도 많이 빨라질 듯 하다.",
+    name: "김수영",
+    role: "페어 프로그래밍 동기",
     accent: "chem",
   },
   {
-    quote: "같이 하면 프로젝트 완성도가 확 올라감. 디테일을 놓치지 않음",
-    name: "조은서",
-    role: "공동 개발자",
+    quote:
+      "문제가 생겨도 침착하게 원인을 찾아가고 결과가 도출될 때까지 차분하게 진행하는 모습이 인상적이었습니다",
+    name: "조진형",
+    role: "페어 프로그래밍 동기",
+    accent: "ai",
+  },
+  {
+    quote:
+      "수도코드를 매우 상세하게 적는 능력이 있어 수월하게 코딩할 수 있었습니다.",
+    name: "허진혁",
+    role: "페어 프로그래밍 동기",
+    accent: "amber",
+  },
+  {
+    quote:
+      "학습하신 내용을 이해를 잘 하고 계셔서 과제를 수월하게 잘 풀어나간 점이 좋았다",
+    name: "김효중",
+    role: "페어 프로그래밍 동기",
+    accent: "code",
+  },
+  {
+    quote: "문제해결에 있어 방향제시를 잘해줬습니다.",
+    name: "이민호",
+    role: "페어 프로그래밍 동기",
+    accent: "chem",
+  },
+  {
+    quote:
+      "커뮤니케이션을 하면서 상대방을 배려한다는 느낌을 받았다",
+    name: "강범규",
+    role: "페어 프로그래밍 동기",
+    accent: "ai",
+  },
+  {
+    quote:
+      "구글링을 통해 모르는 부분을 해결하려는 모습이 인상깊었습니다. 커뮤니케이션도 적극적이여서 문제를 수월하게 해결할 수 있었습니다.",
+    name: "이희영",
+    role: "페어 프로그래밍 동기",
+    accent: "amber",
+  },
+  {
+    quote:
+      "재귀라는 개념 자체가 어려운데도 불구하고 열심히 스프린트 진행하시고 노력하셨어요. 성실한 태도가 꾸준하다면 원하시는 바 이루실 수 있을 거 같습니다.",
+    name: "이민진",
+    role: "페어 프로그래밍 동기",
+    accent: "code",
+  },
+  {
+    quote:
+      "침착하게 진행하셨고, 스스로 더 찾아서 이것저것 시험해보시는게 도움이 많이 됐습니다.",
+    name: "유건표",
+    role: "페어 프로그래밍 동기",
+    accent: "chem",
+  },
+  {
+    quote: "신중하게 문제풀이의 문제점을 생각하는 부분이 좋았습니다",
+    name: "강명우",
+    role: "페어 프로그래밍 동기",
+    accent: "ai",
+  },
+];
+
+const projectReviews: Review[] = [
+  {
+    quote:
+      "팀 내 분위기 메이커로 다들 피로할 때 환기시켜줄 무언가를 하나씩 보여주셔서 탄력받아 프로젝트 진행할 수 있었어요! 반응형 웹까지 완성도 있게 만들어주셔서 너무 마음에 듭니다.",
+    name: "김현규",
+    role: "33plan 프로젝트 팀원",
+    accent: "amber",
+  },
+  {
+    quote:
+      "팀의 분위기 메이커 역할을 해주셔서 지치고 힘든 와중에도 웃으면서 프로젝트를 진행할 수 있었고, 프론트엔드 기능 구현에서 어려운 부분 같이 의견나누고 고민해주셔서 많은 도움이 되었습니다.",
+    name: "정다인",
+    role: "33plan 프로젝트 팀원",
+    accent: "code",
+  },
+  {
+    quote:
+      "팀 분위기를 밝게 만들어주셔서 즐겁게 프로젝트를 진행할 수 있었습니다. 프론트엔드에서 기능구현을 잘해주셨고 끝까지 아쉬운 부분을 해결하려 노력하시는 모습이 인상적이었습니다.",
+    name: "이현걸",
+    role: "33plan 프로젝트 팀원",
+    accent: "chem",
+  },
+  {
+    quote:
+      "마지막에 마지막까지 반응형 웹과 싸우시는 끈기 보고 저도 본받아야겠다 생각들었어요! First부터 Final까지 6주간 너무 고생많으셨어요. 영상 편집 너무 굳입니다!",
+    name: "김현규",
+    role: "Film Storage 프로젝트 팀원",
+    accent: "ai",
+  },
+  {
+    quote:
+      "재미있는 아이디어를 많이 제시해주시고, 다양한 기능을 구현해주셔서 콘텐츠가 풍부한 프로젝트를 완성할 수 있었습니다. 새로운 모듈이나 라이브러리를 적극적으로 활용해주셨습니다. 외구님 덕분에 너무 유쾌하게 프로젝트를 진행할 수 있었습니다.",
+    name: "정다인",
+    role: "Film Storage 프로젝트 팀원",
+    accent: "amber",
+  },
+  {
+    quote:
+      "새로운 기능을 빠르게 학습하시고 만들어내시는 모습을 보면서 진짜 개발자가 되기 위한 능력은 저것이구나 라는 생각을 했었습니다. 필름취향테스트, 무한스크롤 기능을 빠르게 구현하셨고 커뮤니케이션도 훌륭하셔서 회사에 가서도 매우 잘 적응하실 것 같습니다.",
+    name: "이현걸",
+    role: "Film Storage 프로젝트 팀원",
     accent: "code",
   },
 ];
@@ -256,36 +326,63 @@ function MarqueeRow({
 }
 
 export function PeerReviews() {
-  const firstRow = reviews.slice(0, 7);
-  const secondRow = reviews.slice(7);
+  const pairFirst = pairReviews.slice(0, 8);
+  const pairSecond = pairReviews.slice(8);
 
   return (
-    <section aria-label="동료 추천" className="relative overflow-hidden py-24">
+    <section aria-label="동료 리뷰" className="relative overflow-hidden py-24">
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0 bg-glow-chem opacity-30" />
 
       <div className="relative mx-auto max-w-6xl px-6">
         <ScrollReveal>
           <div className="mb-14">
-            <p className="mb-3 font-mono text-sm uppercase tracking-widest text-chem">
+            <p className="mb-3 font-mono text-sm uppercase tracking-widest text-amber">
               Peer Reviews
             </p>
             <h2 className="font-playfair text-4xl font-bold text-white md:text-5xl">
               동료들의 한마디
             </h2>
             <p className="mt-4 text-sm text-gray-500">
-              함께 일하고 성장한 동료들의 이야기
+              코드스테이츠에서 매 스프린트마다 함께 진행한 페어·프로젝트 팀원들의 자율 리뷰
             </p>
           </div>
         </ScrollReveal>
       </div>
 
-      {/* Marquee rows — full bleed */}
+      {/* Pair reviews marquee */}
       <ScrollReveal>
-        <div className="space-y-4">
-          <MarqueeRow items={firstRow} direction="left" speed={55} />
-          <MarqueeRow items={secondRow} direction="right" speed={45} />
+        <div className="relative mx-auto max-w-6xl px-6">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-code" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-code/70">
+              Pair Programming
+            </span>
+            <span className="text-[10px] text-gray-600">
+              — {pairReviews.length}명의 페어
+            </span>
+          </div>
         </div>
+        <div className="space-y-4">
+          <MarqueeRow items={pairFirst} direction="left" speed={50} />
+          <MarqueeRow items={pairSecond} direction="right" speed={40} />
+        </div>
+      </ScrollReveal>
+
+      {/* Project member reviews marquee */}
+      <ScrollReveal>
+        <div className="relative mx-auto mt-12 max-w-6xl px-6">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-amber" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-amber/70">
+              Project Members
+            </span>
+            <span className="text-[10px] text-gray-600">
+              — 33plan · Film Storage 팀원
+            </span>
+          </div>
+        </div>
+        <MarqueeRow items={projectReviews} direction="left" speed={35} />
       </ScrollReveal>
 
       {/* Decorative large quote */}
