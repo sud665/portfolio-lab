@@ -96,7 +96,7 @@ export function CenterDiv() {
   const divVariants = {
     runLeft: { x: -200, opacity: 0.5, transition: { duration: 0.8, ease: EASE } },
     flyUp: { y: -200, opacity: 0, transition: { duration: 0.8, ease: EASE } },
-    spin: { rotate: 720, scale: 0.5, transition: { duration: 1.5, ease: "linear" } },
+    spin: { rotate: 720, scale: 0.5, transition: { duration: 1.5, ease: "linear" as const } },
     split: { scale: 0, opacity: 0, transition: { duration: 0.3 } },
     centered: { scale: [1, 1.2, 1], transition: { duration: 0.6, ease: EASE } },
   };
