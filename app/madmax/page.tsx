@@ -15,6 +15,11 @@ import { CookieBoss } from "@/components/madmax/CookieBoss";
 import { CursedSlider } from "@/components/madmax/CursedSlider";
 import { FakeUpdate } from "@/components/madmax/FakeUpdate";
 import { CaptchaHell } from "@/components/madmax/CaptchaHell";
+import { AIReviewer } from "@/components/madmax/AIReviewer";
+import { CenterDiv } from "@/components/madmax/CenterDiv";
+import { NodeModules } from "@/components/madmax/NodeModules";
+import { WorksOnMyMachine } from "@/components/madmax/WorksOnMyMachine";
+import { PRHell } from "@/components/madmax/PRHell";
 
 export const metadata: Metadata = {
   title: "MADMAX LAB — 희안한 거 만드는 연구실",
@@ -41,6 +46,11 @@ export default function MadmaxPage() {
       <CursedSlider />
       <FakeUpdate />
       <CaptchaHell />
+      <AIReviewer />
+      <CenterDiv />
+      <NodeModules />
+      <WorksOnMyMachine />
+      <PRHell />
       <LabGrid experiments={LAB_EXPERIMENTS} />
     </>
   );
