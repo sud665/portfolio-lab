@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/dev", label: "Developer" },
   { href: "/hr", label: "Career" },
   { href: "/hire", label: "Hire Me" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export function Footer({ name, github, email }: FooterProps) {

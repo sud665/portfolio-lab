@@ -10,6 +10,7 @@ const routes = [
   { href: "/dev", label: "Developer" },
   { href: "/hr", label: "Career" },
   { href: "/hire", label: "Hire Me" },
+  { href: "/blog", label: "Blog" },
   { href: "/madmax", label: "Lab" },
 ];
 
@@ -18,6 +19,7 @@ const accentText: Record<string, string> = {
   "/dev": "text-code",
   "/hr": "text-amber",
   "/hire": "text-chem",
+  "/blog": "text-code",
   "/madmax": "text-mad",
 };
 
@@ -26,6 +28,7 @@ const accentPill: Record<string, string> = {
   "/dev": "bg-code/10",
   "/hr": "bg-amber/10",
   "/hire": "bg-chem/10",
+  "/blog": "bg-code/10",
   "/madmax": "bg-mad/10",
 };
 
@@ -34,6 +37,7 @@ const accentDot: Record<string, string> = {
   "/dev": "bg-code",
   "/hr": "bg-amber",
   "/hire": "bg-chem",
+  "/blog": "bg-code",
   "/madmax": "bg-mad",
 };
 
