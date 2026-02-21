@@ -1,6 +1,11 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import rehypeHighlight from "rehype-highlight";
+import rehypeStringify from "rehype-stringify";
+import { unified } from "unified";
 
 import type {
   Profile,
@@ -10,6 +15,7 @@ import type {
   HireService,
   HireProcess,
   PortfolioItem,
+  BlogPost,
 } from "./types";
 
 const contentDir = path.join(process.cwd(), "content");
@@ -272,4 +278,53 @@ export function getHireData(): {
   } catch {
     return defaults;
   }
+}
+
+async function renderMarkdown(md: string): Promise<string> {
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeHighlight)
+    .use(rehypeStringify)
+    .process(md);
+  return String(result);
+}
+
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  try {
+    const dir = path.join(contentDir, "blog");
+    const files = fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith(".md") && !f.startsWith("_"));
+
+    const posts = await Promise.all(
+      files.map(async (file) => {
+        const raw = fs.readFileSync(path.join(dir, file), "utf-8");
+        const { data, content } = matter(raw);
+        const html = await renderMarkdown(content);
+
+        return {
+          id: data.id ?? file.replace(".md", ""),
+          title: data.title ?? "",
+          subtitle: data.subtitle ?? "",
+          date: data.date ?? "",
+          category: data.category ?? "",
+          tags: data.tags ?? [],
+          summary: data.summary ?? "",
+          content: html,
+        } satisfies BlogPost;
+      })
+    );
+
+    return posts.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+  } catch {
+    return [];
+  }
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const posts = await getBlogPosts();
+  return posts.find((p) => p.id === slug) ?? null;
 }

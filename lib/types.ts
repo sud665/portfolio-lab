@@ -110,3 +110,16 @@ export interface LabExperiment {
   status: "live" | "building" | "idea";
   href?: string;
 }
+
+// ── Blog ──
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  subtitle: string;
+  date: string;
+  category: string;
+  tags: string[];
+  summary: string;
+  content: string;
+}
