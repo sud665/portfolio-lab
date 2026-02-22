@@ -8,7 +8,7 @@ blog: "https://velog.io/@sud665"
 linkedin: ""
 kakao: ""
 resume_pdf: "/files/resume.pdf"
-tagline: "7년의 현장, 4년의 코드, 그리고 AI"
+tagline: "쓸모 있는 사람"
 position: "풀스택 개발자 · AI Engineer"
 ---
 

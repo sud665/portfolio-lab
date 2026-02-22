@@ -3,10 +3,7 @@ import { Outfit, Playfair_Display, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 import { getProfile } from "@/lib/content";
-import { Navbar } from "@/components/common/Navbar";
-import { Footer } from "@/components/common/Footer";
-import { ScrollToTop } from "@/components/common/ScrollToTop";
-import { ChatWidget } from "@/components/common/ChatWidget";
+import { LayoutShell } from "@/components/common/LayoutShell";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -56,15 +53,13 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${playfair.variable} ${jetbrainsMono.variable} font-outfit antialiased`}
       >
-        <Navbar />
-        <main className="min-h-screen pt-20">{children}</main>
-        <Footer
+        <LayoutShell
           name={profile.name}
           github={profile.github}
           email={profile.email}
-        />
-        <ScrollToTop />
-        <ChatWidget />
+        >
+          {children}
+        </LayoutShell>
       </body>
     </html>
   );

@@ -1,12 +1,9 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 import { useChatMessages } from "@/hooks/useChatMessages";
 
 const WELCOME_MESSAGE = "안녕하세요! 궁금한 점이 있으시면 편하게 물어보세요.";
-const AWAY_MESSAGE =
-  "현재 자리를 비웠습니다. 메시지를 남겨주시면 확인 후 연락드리겠습니다.";
-const AWAY_DELAY_MS = 30_000;
 const TOOLTIP_DELAY_MS = 3_000;
 const SESSION_KEY = "chat-session-id";
 
@@ -16,11 +13,9 @@ export function useChatWidget() {
   const [input, setInput] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [showAway, setShowAway] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [hasNewMessage, setHasNewMessage] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const awayTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { messages, isLoading, addOptimistic } = useChatMessages(sessionId);
@@ -51,26 +46,11 @@ export function useChatWidget() {
     }
   }, [messages, isOpen]);
 
-  // 부재중 타이머
-  const resetAwayTimer = useCallback(() => {
-    setShowAway(false);
-    if (awayTimerRef.current) clearTimeout(awayTimerRef.current);
-    awayTimerRef.current = setTimeout(() => setShowAway(true), AWAY_DELAY_MS);
-  }, []);
-
-  // 부재중 타이머 cleanup
-  useEffect(() => {
-    return () => {
-      if (awayTimerRef.current) clearTimeout(awayTimerRef.current);
-    };
-  }, []);
 
   const handleNewChat = () => {
     localStorage.removeItem(SESSION_KEY);
     setSessionId(null);
-    setShowAway(false);
     setInput("");
-    if (awayTimerRef.current) clearTimeout(awayTimerRef.current);
   };
 
   const handleOpen = () => {
@@ -91,8 +71,6 @@ export function useChatWidget() {
     setInput("");
     setIsSending(true);
     addOptimistic(trimmed);
-    resetAwayTimer();
-
     try {
       const res = await fetch("/api/chat/send", {
         method: "POST",
@@ -136,7 +114,6 @@ export function useChatWidget() {
     input,
     setInput,
     showTooltip,
-    showAway,
     isSending,
     hasNewMessage,
     messages,
@@ -144,7 +121,6 @@ export function useChatWidget() {
     messagesEndRef,
     inputRef,
     welcomeMessage: WELCOME_MESSAGE,
-    awayMessage: AWAY_MESSAGE,
     handleNewChat,
     handleOpen,
     handleClose,

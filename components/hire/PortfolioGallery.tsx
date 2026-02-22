@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, useRef, useCallback, type ReactNode } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Calendar, Building2 } from "lucide-react";
@@ -36,6 +36,9 @@ const dotColors: Record<string, string> = {
   amber: "bg-amber",
 };
 
+const openSpring = { type: "spring" as const, stiffness: 200, damping: 30 };
+const closeSpring = { type: "spring" as const, stiffness: 300, damping: 35 };
+
 function getThumbnailPath(id: string): string {
   return `/images/portfolio/${id}.png`;
 }
@@ -70,38 +73,6 @@ function CardBg({
       <div
         className={`absolute inset-0 bg-gradient-to-t ${colorOverlays[color]} to-transparent`}
       />
-    </div>
-  );
-}
-
-function SiteThumbnail({ id, alt }: { id: string; alt: string }) {
-  const [imgError, setImgError] = useState(false);
-
-  return (
-    <div className="overflow-hidden rounded-xl border border-white/15 shadow-2xl">
-      <div className="flex items-center gap-1.5 border-b border-white/10 bg-black/20 px-3 py-2 backdrop-blur-sm">
-        <div className="h-2 w-2 rounded-full bg-white/50" />
-        <div className="h-2 w-2 rounded-full bg-white/35" />
-        <div className="h-2 w-2 rounded-full bg-white/20" />
-        <div className="ml-2 h-3.5 flex-1 rounded-full bg-white/10" />
-      </div>
-      {!imgError ? (
-        <Image
-          src={getThumbnailPath(id)}
-          alt={alt}
-          width={800}
-          height={500}
-          className="w-full object-cover object-top"
-          onError={() => setImgError(true)}
-        />
-      ) : (
-        <div className="aspect-[16/10] bg-white/5 p-4">
-          <div className="h-3 w-2/3 rounded-full bg-white/10" />
-          <div className="mt-2.5 h-2 w-full rounded-full bg-white/[0.07]" />
-          <div className="mt-2 h-2 w-4/5 rounded-full bg-white/[0.07]" />
-          <div className="mt-2 h-2 w-3/5 rounded-full bg-white/[0.06]" />
-        </div>
-      )}
     </div>
   );
 }
@@ -146,28 +117,25 @@ function ModalHeroBg({
 
 function CardShell({
   item,
-  selectedId,
   onSelect,
   className,
   children,
+  cardRef,
 }: {
   item: PortfolioItem;
-  selectedId: string | null;
   onSelect: (id: string) => void;
   className?: string;
   children: ReactNode;
+  cardRef?: (el: HTMLDivElement | null) => void;
 }) {
   return (
-    <motion.div
-      layoutId={`card-${item.id}`}
+    <div
+      ref={cardRef}
       onClick={() => onSelect(item.id)}
-      transition={{ type: "spring", damping: 30, stiffness: 300 }}
-      className={`group cursor-pointer overflow-hidden rounded-3xl transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30 ${
-        selectedId === item.id ? "invisible" : ""
-      } ${className ?? ""}`}
+      className={`group cursor-pointer overflow-hidden rounded-3xl transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30 ${className ?? ""}`}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -175,9 +143,37 @@ interface PortfolioGalleryProps {
   portfolio: PortfolioItem[];
 }
 
+interface ModalRect {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
+
+function computeTargetRect(): ModalRect {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  let ix: number, iy: number;
+  if (vw >= 1024) {
+    ix = Math.round(vw * 0.12);
+    iy = 24;
+  } else if (vw >= 768) {
+    ix = iy = 40;
+  } else if (vw >= 640) {
+    ix = iy = 24;
+  } else {
+    ix = iy = 12;
+  }
+  return { top: iy, left: ix, width: vw - ix * 2, height: vh - iy * 2 };
+}
+
 export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [originRect, setOriginRect] = useState<ModalRect | null>(null);
+  const [targetRect, setTargetRect] = useState<ModalRect | null>(null);
+
   const selectedItem = portfolio.find((p) => p.id === selectedId);
+  const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   useEffect(() => {
     if (selectedId) {
@@ -198,7 +194,28 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const handleSelect = (id: string) => setSelectedId(id);
+  const handleSelect = useCallback((id: string) => {
+    const el = cardRefs.current.get(id);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      setOriginRect({
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+      });
+    }
+    setTargetRect(computeTargetRect());
+    setSelectedId(id);
+  }, []);
+
+  const setCardRef = useCallback(
+    (id: string) => (el: HTMLDivElement | null) => {
+      if (el) cardRefs.current.set(id, el);
+      else cardRefs.current.delete(id);
+    },
+    [],
+  );
 
   return (
     <section id="portfolio" className="mx-auto max-w-6xl px-6 py-24">
@@ -217,13 +234,13 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
       </ScrollReveal>
 
       <div className="flex flex-col gap-5">
-        {/* ━━ ROW 1 : Featured ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+        {/* ROW 1 : Featured */}
         {portfolio[0] && (
           <ScrollReveal>
             <CardShell
               item={portfolio[0]}
-              selectedId={selectedId}
               onSelect={handleSelect}
+              cardRef={setCardRef(portfolio[0].id)}
             >
               <div className="relative min-h-96 overflow-hidden md:min-h-[420px]">
                 <CardBg
@@ -257,15 +274,15 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
           </ScrollReveal>
         )}
 
-        {/* ━━ ROW 2 : 5 : 7 Asymmetric ━━━━━━━━━━━━━━━━━━━━━━━━ */}
+        {/* ROW 2 : 5 : 7 Asymmetric */}
         {portfolio.length > 2 && (
           <div className="grid grid-cols-1 gap-5 md:grid-cols-12">
             {portfolio[1] && (
               <ScrollReveal className="md:col-span-5">
                 <CardShell
                   item={portfolio[1]}
-                  selectedId={selectedId}
                   onSelect={handleSelect}
+                  cardRef={setCardRef(portfolio[1].id)}
                   className="h-full"
                 >
                   <div className="relative h-full min-h-80 overflow-hidden md:min-h-[460px]">
@@ -294,8 +311,8 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
               <ScrollReveal delay={0.1} className="md:col-span-7">
                 <CardShell
                   item={portfolio[2]}
-                  selectedId={selectedId}
                   onSelect={handleSelect}
+                  cardRef={setCardRef(portfolio[2].id)}
                   className="h-full"
                 >
                   <div className="relative h-full min-h-80 overflow-hidden md:min-h-[460px]">
@@ -322,15 +339,15 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
           </div>
         )}
 
-        {/* ━━ ROW 3 : 7 : 5 Reversed ━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+        {/* ROW 3 : 7 : 5 Reversed */}
         {portfolio.length > 4 && (
           <div className="grid grid-cols-1 gap-5 md:grid-cols-12">
             {portfolio[3] && (
               <ScrollReveal className="md:col-span-7">
                 <CardShell
                   item={portfolio[3]}
-                  selectedId={selectedId}
                   onSelect={handleSelect}
+                  cardRef={setCardRef(portfolio[3].id)}
                   className="h-full"
                 >
                   <div className="relative h-full min-h-80 overflow-hidden md:min-h-[460px]">
@@ -359,8 +376,8 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
               <ScrollReveal delay={0.1} className="md:col-span-5">
                 <CardShell
                   item={portfolio[4]}
-                  selectedId={selectedId}
                   onSelect={handleSelect}
+                  cardRef={setCardRef(portfolio[4].id)}
                   className="h-full"
                 >
                   <div className="relative h-full min-h-80 overflow-hidden md:min-h-[460px]">
@@ -387,13 +404,13 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
           </div>
         )}
 
-        {/* ━━ ROW 4 : Banner ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+        {/* ROW 4 : Banner */}
         {portfolio[5] && (
           <ScrollReveal>
             <CardShell
               item={portfolio[5]}
-              selectedId={selectedId}
               onSelect={handleSelect}
+              cardRef={setCardRef(portfolio[5].id)}
             >
               <div className="relative min-h-64 overflow-hidden md:min-h-72">
                 <CardBg
@@ -428,15 +445,15 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
         )}
       </div>
 
-      {/* ━━ ROW 5+ : Compact grid for remaining items ━━━━━━━━━ */}
+      {/* ROW 5+ : Compact grid for remaining items */}
       {portfolio.length > 6 && (
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {portfolio.slice(6).map((item, i) => (
             <ScrollReveal key={item.id} delay={i * 0.06}>
               <CardShell
                 item={item}
-                selectedId={selectedId}
                 onSelect={handleSelect}
+                cardRef={setCardRef(item.id)}
               >
                 <div className="relative min-h-64 overflow-hidden">
                   <CardBg
@@ -462,11 +479,12 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
         </div>
       )}
 
-      {/* ━━ Expanded Overlay ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      {/* Expanded Modal Overlay */}
       <AnimatePresence>
-        {selectedItem && (
+        {selectedItem && originRect && targetRect && (
           <>
             <motion.div
+              key="portfolio-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -476,9 +494,33 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
             />
 
             <motion.div
-              layoutId={`card-${selectedItem.id}`}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed inset-3 z-50 flex flex-col overflow-hidden rounded-3xl border border-card-border bg-card sm:inset-6 md:inset-10 lg:inset-x-[12%] lg:inset-y-6"
+              key="portfolio-modal"
+              initial={{
+                top: originRect.top,
+                left: originRect.left,
+                width: originRect.width,
+                height: originRect.height,
+                borderRadius: 24,
+              }}
+              animate={{
+                top: targetRect.top,
+                left: targetRect.left,
+                width: targetRect.width,
+                height: targetRect.height,
+                borderRadius: 24,
+                transition: openSpring,
+              }}
+              exit={{
+                top: originRect.top,
+                left: originRect.left,
+                width: originRect.width,
+                height: originRect.height,
+                borderRadius: 24,
+                opacity: 0,
+                transition: closeSpring,
+              }}
+              style={{ position: "fixed", zIndex: 50 }}
+              className="flex flex-col overflow-hidden border border-card-border bg-card"
             >
               <div className="relative shrink-0">
                 <ModalHeroBg
@@ -492,7 +534,7 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
                     e.stopPropagation();
                     setSelectedId(null);
                   }}
-                  className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white backdrop-blur-md transition-all hover:bg-black/60 hover:scale-110"
+                  className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white backdrop-blur-md transition-all hover:scale-110 hover:bg-black/60"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -501,7 +543,7 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
                   <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.15, duration: 0.4 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
                   >
                     <span className="mb-3 inline-block text-xs font-bold uppercase tracking-widest text-white/70">
                       {selectedItem.category}
@@ -519,7 +561,7 @@ export function PortfolioGallery({ portfolio }: PortfolioGalleryProps) {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.3 }}
+                transition={{ delay: 0.25, duration: 0.3 }}
                 className="flex-1 overflow-y-auto p-8 md:p-10"
               >
                 <div className="mb-8 flex flex-wrap gap-6 border-b border-card-border pb-6">
